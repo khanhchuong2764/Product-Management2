@@ -19,7 +19,6 @@ module.exports.index = async(req, res) => {
             class :""
         }
     ]
-
     if (req.query.status) { 
         const index = FillterStatus.findIndex(item => {
             return item.status == req.query.status;
@@ -32,6 +31,14 @@ module.exports.index = async(req, res) => {
     const find = {
         deleted:false
     };
+
+    let keyword="";
+    if (req.query.keyword) {
+        keyword = req.query.keyword;
+        const regex = new RegExp(keyword,"i");
+        find.title = regex;
+    }
+
     if (req.query.status) { 
         find.status = req.query.status;
     };
@@ -39,6 +46,7 @@ module.exports.index = async(req, res) => {
     res.render("admin/pages/products/index",{
         titlePage:"Danh Sách Sản Phẩm",
         product:product,
-        FillterStatus:FillterStatus
+        FillterStatus:FillterStatus,
+        keyword:keyword
     })  
 }
