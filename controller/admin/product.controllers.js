@@ -2,12 +2,43 @@ const Product = require("../../model/product.model");
 
 
 module.exports.index = async(req, res) => {
-    const product = await Product.find({
+    const FillterStatus = [
+        {
+            name:"Tất Cả",
+            status :"",
+            class :""
+        },
+        {
+            name:"Hoạt Động",
+            status :"active",
+            class :""
+        },
+        {
+            name:"Dừng Hoạt Động",
+            status :"inactive",
+            class :""
+        }
+    ]
+
+    if (req.query.status) { 
+        const index = FillterStatus.findIndex(item => {
+            return item.status == req.query.status;
+        })
+        FillterStatus[index].class="active";
+    }else {
+        FillterStatus[0].class="active";
+    }
+
+    const find = {
         deleted:false
-    });
-    console.log(product);
+    };
+    if (req.query.status) { 
+        find.status = req.query.status;
+    };
+    const product = await Product.find(find);
     res.render("admin/pages/products/index",{
         titlePage:"Danh Sách Sản Phẩm",
-        product:product
+        product:product,
+        FillterStatus:FillterStatus
     })  
 }
