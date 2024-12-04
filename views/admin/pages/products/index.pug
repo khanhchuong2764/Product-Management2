@@ -17,18 +17,19 @@ block main
                                 th Trạng Thái
                                 th Hành Động
                         tbody 
-                            tr  
-                                td 1
-                                td
-                                    img(src="https://cdn2.cellphones.com.vn/x/media/catalog/product/_/z/_z.jpg", width="120px" height="auto" alt="")
-                                td Iphone 9
-                                td 200$
-
-                                td 
-                                    a(href="#" class="badge badge-success" ) Hoạt Động
-                                td  
-                                    a(class="btn btn-secondary btn-sm btn-detail" ) Chi Tiết
-                                    a(class="btn btn-warning btn-sm" ) Sửa
-                                    button(class="btn btn-danger btn-sm ml-1" ) Xóa
-
-    //- a(href="#" class="badge badge-danger"  button-change-status data-id=item.id data-status=item.status  ) Dừng Hoạt Động
+                            each item,index in product
+                                tr      
+                                    td #{index + 1}
+                                    td
+                                        img(src=item.thumbnail, width="120px" height="auto" alt=item.title)
+                                    td #{item.title}
+                                    td #{item.price}$
+                                    td 
+                                        if(item.status == "active")
+                                            a(href="#" class="badge badge-success" ) Hoạt Động
+                                        else
+                                            a(href="#" class="badge badge-danger"  ) Dừng Hoạt Động
+                                    td  
+                                        a(class="btn btn-secondary btn-sm btn-detail" ) Chi Tiết
+                                        a(class="btn btn-warning btn-sm" ) Sửa
+                                        button(class="btn btn-danger btn-sm ml-1" ) Xóa
