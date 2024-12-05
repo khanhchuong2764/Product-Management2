@@ -38,7 +38,7 @@ block main
                                 tr      
                                     td
                                         input(type="checkbox" name="id" value=item.id)
-                                    td #{index + 1}
+                                    td #{pagination.skip + index + 1}
                                     td
                                         img(src=item.thumbnail, width="120px" height="auto" alt=item.title)
                                     td #{item.title}
