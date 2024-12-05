@@ -1,6 +1,7 @@
 const Product = require("../../model/product.model");
 const FillterStatusHelper = require("../../helpers/FillterStatus");
 const SearchHelper = require("../../helpers/search");
+const PaginationHelper = require("../../helpers/pagination");
 // [GET] /admin/products
 module.exports.index = async(req, res) => {
     // Bộ Lọc
@@ -18,12 +19,22 @@ module.exports.index = async(req, res) => {
     if (req.query.status) { 
         find.status = req.query.status;
     };
-
-    const product = await Product.find(find);
+    // Pagination
+    const CountProduct = await Product.countDocuments(find);
+    const ObjectPagination =PaginationHelper({
+        limitItem: 3,
+        currentPage: 1
+    },
+        CountProduct,
+        req.query
+    );
+    //End Pagination
+    const product = await Product.find(find).limit(ObjectPagination.limitItem).skip(ObjectPagination.skip);
     res.render("admin/pages/products/index",{
         titlePage:"Danh Sách Sản Phẩm",
         product:product,
         FillterStatus:FillterStatus,
-        keyword:ObjectSearch.keyword
+        keyword:ObjectSearch.keyword,
+        pagination:ObjectPagination
     })  
 }

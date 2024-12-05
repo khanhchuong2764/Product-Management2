@@ -50,3 +50,17 @@ if (formsearch) {
 }
 
 // End Search
+
+// Pagination
+const buttonPagi = document.querySelectorAll("[button-pagi]");
+if (buttonPagi.length > 0) {
+    let url = new URL(window.location.href);
+    buttonPagi.forEach(button => {
+        button.addEventListener("click", () => {
+            const page = button.getAttribute("button-pagi");
+            url.searchParams.set("page",page);
+            window.location.href=url.href;
+        })
+    })
+}
+// End Pagination

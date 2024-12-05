@@ -1,6 +1,7 @@
 extends ../../layouts/default.pug
 include ../../mixins/fillter-status.pug
 include ../../mixins/search.pug
+include ../../mixins/pagination.pug
 block main
     h2 Danh Sách Sản Phẩm
     .card.mb-3
@@ -44,3 +45,4 @@ block main
                                         a(class="btn btn-secondary btn-sm btn-detail" ) Chi Tiết
                                         a(class="btn btn-warning btn-sm" ) Sửa
                                         button(class="btn btn-danger btn-sm ml-1" ) Xóa
+    +pagination(pagination)
