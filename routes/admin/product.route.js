@@ -6,4 +6,6 @@ Router.get('/', ProductController.index);
 
 Router.patch('/change-status/:status/:id', ProductController.ChangeStatus);
 
+Router.patch('/change-multi', ProductController.ChangeMulti);
+
 module.exports = Router;

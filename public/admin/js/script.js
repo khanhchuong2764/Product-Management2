@@ -83,3 +83,62 @@ if (buttonChangeStatus.length > 0) {
 }
 
 // End ChangeStatus
+
+// CheckBox Multi
+const checkboxMulti = document.querySelector("[checkbox-multi]");
+if (checkboxMulti) {
+    const inputcheckall = checkboxMulti.querySelector("input[name='checkall']");
+    const inputcheckbox = checkboxMulti.querySelectorAll("input[name='id']");
+    inputcheckall.addEventListener("click", () => {
+        if (inputcheckall.checked) {
+            inputcheckbox.forEach(input => {
+                input.checked=true;
+            })
+        }else {
+            inputcheckbox.forEach(input => {
+                input.checked=false;
+            })
+        }
+    })
+    
+    inputcheckbox.forEach(input => {
+        input.addEventListener("click", () => {
+            const countchecked = checkboxMulti.querySelectorAll("input[name='id']:checked").length;
+            if (countchecked==inputcheckbox.length) {
+                inputcheckall.checked=true;
+            }else {
+                inputcheckall.checked=false;
+            }
+        })
+    })
+}
+
+// End CheckBox Multi
+
+// Change Multi
+const formChangeMulti= document.querySelector("#form-change-multi");
+if (formChangeMulti) {
+    formChangeMulti.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const checkboxMulti = document.querySelector("[checkbox-multi]");
+        const inputchecked = checkboxMulti.querySelectorAll("input[name='id']:checked");
+        if (inputchecked.length > 0) {
+            const inputform = document.querySelector("input[name='ids']");
+            const checked = confirm("Bạn Có Chắc Muốn Áp Dụng");
+            if(!checked){
+                return;
+            }
+            let arr = [];
+            inputchecked.forEach(input => {
+                const id = input.value;
+                arr.push(id);
+            })
+            inputform.value=arr.join(", ");
+            formChangeMulti.submit();
+        }else {
+            alert("Vui lòng chọn ít nhất 1 bản ghi");
+        }
+    })
+}
+
+// End Change Multi
