@@ -2,6 +2,8 @@ const Product = require("../../model/product.model");
 const FillterStatusHelper = require("../../helpers/FillterStatus");
 const SearchHelper = require("../../helpers/search");
 const PaginationHelper = require("../../helpers/pagination");
+
+
 // [GET] /admin/products
 module.exports.index = async(req, res) => {
     // Bộ Lọc
@@ -61,5 +63,13 @@ module.exports.ChangeMulti = async (req, res) => {
         default:
             break;
     }
+    res.redirect('back');
+}
+
+
+// [DELETE] /admin/products/delete/:id
+module.exports.DeleteItem = async (req, res) => {
+    const id = req.params.id;
+    await Product.updateOne({_id: id},{deleted: true});
     res.redirect('back');
 }

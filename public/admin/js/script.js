@@ -124,10 +124,6 @@ if (formChangeMulti) {
         const inputchecked = checkboxMulti.querySelectorAll("input[name='id']:checked");
         if (inputchecked.length > 0) {
             const inputform = document.querySelector("input[name='ids']");
-            const checked = confirm("Bạn Có Chắc Muốn Áp Dụng");
-            if(!checked){
-                return;
-            }
             let arr = [];
             inputchecked.forEach(input => {
                 const id = input.value;
@@ -142,3 +138,21 @@ if (formChangeMulti) {
 }
 
 // End Change Multi
+
+// Delete Item
+const buttonDeleteItem = document.querySelectorAll("[btn-delete-item]");
+if (buttonDeleteItem.length > 0) {
+    const formdeleteItem = document.querySelector("#form-delete-item");
+    const path = formdeleteItem.getAttribute("data-path");
+    buttonDeleteItem.forEach(button => {
+        button.addEventListener("click", () => {
+            const id = button.getAttribute("data-id");
+            const action = `${path}/${id}?_method=DELETE`;
+            formdeleteItem.action=action;
+            formdeleteItem.submit();
+        })
+    })
+}
+
+
+// End Delete Item

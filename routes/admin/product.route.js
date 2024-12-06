@@ -8,4 +8,6 @@ Router.patch('/change-status/:status/:id', ProductController.ChangeStatus);
 
 Router.patch('/change-multi', ProductController.ChangeMulti);
 
+Router.delete('/delete/:id', ProductController.DeleteItem);
+
 module.exports = Router;
