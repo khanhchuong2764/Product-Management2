@@ -9,7 +9,8 @@ const Productschema = new mongoose.Schema(
         stock:Number,
         posittion:Number,
         thumbnail:String,
-        deleted:Boolean
+        deleted:Boolean,
+        deleteAt: Date
     }
 );
 

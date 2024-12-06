@@ -122,6 +122,13 @@ if (formChangeMulti) {
         e.preventDefault();
         const checkboxMulti = document.querySelector("[checkbox-multi]");
         const inputchecked = checkboxMulti.querySelectorAll("input[name='id']:checked");
+        const type = e.target.elements.type.value;
+        if (type == "delete-all") {
+            const check = confirm("Bạn có chắc muốn xóa sản bản ghi này");
+            if(!check) {
+                return;
+            }
+        }
         if (inputchecked.length > 0) {
             const inputform = document.querySelector("input[name='ids']");
             let arr = [];
@@ -146,6 +153,10 @@ if (buttonDeleteItem.length > 0) {
     const path = formdeleteItem.getAttribute("data-path");
     buttonDeleteItem.forEach(button => {
         button.addEventListener("click", () => {
+            const check = confirm('Bạn có chắc muốn xóa bản ghi này');
+            if (!check) {
+                return;
+            }
             const id = button.getAttribute("data-id");
             const action = `${path}/${id}?_method=DELETE`;
             formdeleteItem.action=action;
@@ -154,5 +165,25 @@ if (buttonDeleteItem.length > 0) {
     })
 }
 
+// End Delete Item
+
+// Delete Item
+const buttonRestore = document.querySelectorAll("[btn-restore-item]");
+if (buttonRestore.length > 0) {
+    const formRestoreItem = document.querySelector("#form-restore-item");
+    const path = formRestoreItem.getAttribute("data-path");
+    buttonRestore.forEach(button => {
+        button.addEventListener("click", () => {
+            const check = confirm('Bạn có chắc muốn khôi phục bản ghi này');
+            if (!check) {
+                return;
+            }
+            const id = button.getAttribute("data-id");
+            const action = `${path}/${id}?_method=PATCH`;
+            formRestoreItem.action=action;
+            formRestoreItem.submit();
+        })
+    })
+}
 
 // End Delete Item

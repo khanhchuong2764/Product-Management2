@@ -59,7 +59,35 @@ module.exports.ChangeMulti = async (req, res) => {
         case "inactive":
             await Product.updateMany({_id : {$in: ids}}, {status : "inactive"})
             break;
-    
+        case "delete-all":
+            await Product.updateMany({_id : {$in: ids}},{
+                    deleted : true,   
+                    deleteAt: new Date()
+                })
+            break;
+        default:
+            break;
+    }
+    res.redirect('back');
+}
+
+// [PATCH] /admin/products/trash/change-multi
+module.exports.TrashChangeMulti = async (req, res) => {
+    const type = req.body.type;
+    const ids = req.body.ids.split(", ");
+    switch (type) {
+        case "active":
+            await Product.updateMany({_id : {$in: ids}}, {status : "active"})
+            break;
+        case "inactive":
+            await Product.updateMany({_id : {$in: ids}}, {status : "inactive"})
+            break;
+        case "delete-all":
+            await Product.deleteMany({_id : {$in: ids}});
+            break;
+        case "restore-all":
+            await Product.updateMany({_id : {$in: ids}}, {deleted : false})
+            break;
         default:
             break;
     }
@@ -70,6 +98,65 @@ module.exports.ChangeMulti = async (req, res) => {
 // [DELETE] /admin/products/delete/:id
 module.exports.DeleteItem = async (req, res) => {
     const id = req.params.id;
-    await Product.updateOne({_id: id},{deleted: true});
+    await Product.updateOne({_id: id},{
+        deleted: true,
+        deleteAt: new Date()    
+    });
     res.redirect('back');
 }
+
+
+// [GET] /admin/products/trash
+module.exports.Trash = async(req, res) => {
+    // Bộ Lọc
+    const FillterStatus = FillterStatusHelper(req.query);
+    // End Bộ Lọc
+    const find = {
+        deleted:true
+    };
+    // Search
+    const ObjectSearch=SearchHelper(req.query);
+    if (ObjectSearch.regex) {
+        find.title = ObjectSearch.regex;
+    }
+    // End Search 
+    if (req.query.status) { 
+        find.status = req.query.status;
+    };
+    // Pagination
+    const CountProduct = await Product.countDocuments(find);
+    const ObjectPagination =PaginationHelper({
+        limitItem: 3,
+        currentPage: 1
+    },
+        CountProduct,
+        req.query
+    );
+    //End Pagination
+    const product = await Product.find(find).limit(ObjectPagination.limitItem).skip(ObjectPagination.skip);
+    res.render("admin/pages/products/trash",{
+        titlePage:"Thùng Rác Danh Sách Sản Phẩm",
+        product:product,
+        FillterStatus:FillterStatus,
+        keyword:ObjectSearch.keyword,
+        pagination:ObjectPagination
+    })  
+}
+
+// [DELETE] /admin/products/delete-permanently/:id
+module.exports.Deletepermanetly = async (req, res) => {
+    const id = req.params.id;
+    await Product.deleteOne({_id: id});
+    res.redirect('back');
+}
+
+// [DELETE] /admin/products/restore/:id
+module.exports.RestoreItem = async (req, res) => {
+    const id = req.params.id;
+    await Product.updateOne({_id: id},{
+        deleted: false, 
+    });
+    res.redirect('back');
+}
+
+
