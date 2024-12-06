@@ -134,7 +134,12 @@ if (formChangeMulti) {
             let arr = [];
             inputchecked.forEach(input => {
                 const id = input.value;
-                arr.push(id);
+                if (type =="posittion-change") {
+                    const position = input.closest("tr").querySelector("input[name='position']").value;
+                    arr.push(`${id}-${position}`);
+                }else {
+                    arr.push(id);
+                }
             })
             inputform.value=arr.join(", ");
             formChangeMulti.submit();
@@ -187,3 +192,4 @@ if (buttonRestore.length > 0) {
 }
 
 // End Delete Item
+    
