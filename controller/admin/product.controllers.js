@@ -190,22 +190,27 @@ module.exports.create = (req, res) => {
 
 // [POST] /admin/products/create
 module.exports.createPost = async (req, res) => {
-    req.body.price= parseInt(req.body.price);
-    req.body.discountPercentage= parseInt(req.body.discountPercentage);
-    req.body.stock= parseInt(req.body.stock);
-    if(req.body.posittion == "") {
-        const countProduct = await Product.countDocuments();
-        req.body.posittion = countProduct + 1;
-    }else {
-        req.body.posittion= parseInt(req.body.posittion);
+    try {
+        req.body.price= parseInt(req.body.price);
+        req.body.discountPercentage= parseInt(req.body.discountPercentage);
+        req.body.stock= parseInt(req.body.stock);
+        if(req.body.posittion == "") {
+            const countProduct = await Product.countDocuments();
+            req.body.posittion = countProduct + 1;
+        }else {
+            req.body.posittion= parseInt(req.body.posittion);
+        }
+        if(req.file) {
+            req.body.thumbnail = `/uploads/${req.file.filename}`;
+        }
+        const product = new Product(req.body);
+        await product.save();
+        req.flash('success', 'Thêm mới sản phẩm thành công');
+        res.redirect(`${SystemConfig.PrefixAdmin}/products`);
+    } catch (error) {
+        req.flash('error', 'Thêm mới sản phẩm thất bại');
+        res.redirect(`${SystemConfig.PrefixAdmin}/products`);
     }
-    if(req.file) {
-        req.body.thumbnail = `/uploads/${req.file.filename}`;
-    }
-    const product = new Product(req.body);
-    await product.save();
-    req.flash('success', 'Thêm mới sản phẩm thành công');
-    res.redirect(`${SystemConfig.PrefixAdmin}/products`);
 }
 
 
@@ -246,4 +251,24 @@ module.exports.editPatch = async (req, res) => {
         req.flash('error', 'Cập nhật sản phẩm thất bại');
     }
     res.redirect('back');
+}
+
+
+// [GET] /admin/products/detail/:id
+module.exports.detail = async (req, res) => {
+    try {
+        const id = req.params.id;
+        const find = {
+            _id : id,
+            deleted : false
+        }
+        const record = await Product.findOne(find);
+        res.render("admin/pages/products/detail",{
+            titlePage:record.title,
+            record:record
+        });
+    } catch (error) {
+        req.flash('error', 'Không tìm thấy sản phẩm');
+        res.redirect(`${SystemConfig.PrefixAdmin}/products`);
+    }
 }

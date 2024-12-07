@@ -30,4 +30,6 @@ Router.get('/edit/:id', ProductController.edit);
 
 Router.patch('/edit/:id',upload.single('thumbnail'),ProductValidate.createPost,  ProductController.editPatch);
 
+Router.get('/detail/:id', ProductController.detail);
+
 module.exports = Router;

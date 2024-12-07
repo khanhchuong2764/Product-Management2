@@ -16,3 +16,22 @@ module.exports.index = async (req, res) => {
       product:Newproduct
     })
 }
+
+// [GET] /product/:slug
+module.exports.detail = async (req, res) => {
+  try {
+    const find = {
+        slug : req.params.slug,
+        deleted : false,
+        status : "active"
+    }
+    const record = await Product.findOne(find);
+    res.render("client/pages/products/detail",{
+        titlePage:record.title,
+        record:record
+    });
+  } catch (error) {
+      req.flash('error', 'Không tìm thấy sản phẩm');
+      res.redirect(`${SystemConfig.PrefixAdmin}/products`);
+  }
+}

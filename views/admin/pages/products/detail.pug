@@ -1,0 +1,37 @@
+extends ../../layouts/default.pug
+
+block main  
+
+    if (record.title) 
+        h1(class="mb-4") #{record.title}
+
+    if (record.price) 
+        div(class="mb-4") Giá: <b>#{record.price}$</b>
+
+    if (record.discountPercentage) 
+        div(class="mb-4") Giảm Giá: <b>#{record.discountPercentage}%</b>
+    
+    
+    if (record.stock) 
+        div(class="mb-4") Số Lượng: <b>#{record.stock}</b>
+    
+    if (record.thumbnail) 
+        div(class="mb-4")
+            img(src=record.thumbnail, alt="" style="width:200px")
+    
+    if (record.status) 
+        div(class="mb-4")
+            span(class="status-detail") Trạng Thái:
+            if (record.status == "active")
+                span(class="badge badge-success") Hoạt Động
+            else 
+                span(class="badge badge-danger") Dừng Hoạt Động
+    
+    if (record.posittion) 
+        div(class="mb-4") Vị Trí: <b>#{record.posittion}</b>
+    
+    if (record.description) 
+        div(class="mb-4") Mô Tả: #{record.description}
+    
+
+    a(class="btn btn-warning btn-sm" href=`${PrefixAdmin}/products/edit/${record.id}` ) Chỉnh Sửa
