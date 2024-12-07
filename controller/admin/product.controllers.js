@@ -181,3 +181,31 @@ module.exports.RestoreItem = async (req, res) => {
     res.redirect('back');
 }
 
+// [GET] /admin/products/create
+module.exports.create = (req, res) => {
+    res.render("admin/pages/products/create",{
+        titlePage:"Thêm Mới Sản Phẩm"
+    });
+}
+
+// [POST] /admin/products/create
+module.exports.createPost = async (req, res) => {
+    console.log(req.file);
+    req.body.price= parseInt(req.body.price);
+    req.body.discountPercentage= parseInt(req.body.discountPercentage);
+    req.body.stock= parseInt(req.body.stock);
+    if(req.body.posittion == "") {
+        const countProduct = await Product.countDocuments();
+        req.body.posittion = countProduct + 1;
+    }else {
+        req.body.posittion= parseInt(req.body.posittion);
+    }
+    if(req.file) {
+        req.body.thumbnail = `/uploads/${req.file.filename}`;
+    }
+    console.log(req.file);
+    const product = new Product(req.body);
+    await product.save();
+    res.redirect("/admin/products");
+}
+

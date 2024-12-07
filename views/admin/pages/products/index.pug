@@ -24,6 +24,8 @@ block main
                 .row 
                     .col-8
                         +form-change-multi(`${PrefixAdmin}/products/change-multi?_method=PATCH`)
+                    .col-4
+                        a(href=`${PrefixAdmin}/products/create` class="btn btn-outline-success") +Thêm Mới
                 table(class="table table-hover" checkbox-multi)
                         thead
                             tr  
