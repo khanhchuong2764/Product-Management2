@@ -27,7 +27,7 @@ block main
             label(for="thumbnail") Ảnh
             input(type="file" id="thumbnail" name="thumbnail" class="form-control-file" accept="image/*" uploads-image-input) 
             img(src="", alt="" uploads-image-previews class="imguploads")
-            //- button(class="btn btn-secondary btn-sm ml-3 btn-delete-uploads" button-delete-uploads ) Xóa
+            button(class="btn btn-secondary btn-sm ml-3 btn-delete-uploads button-hidden" type="button" button-delete-uploads ) Xóa
         div(class="form-group")
             label(for="posittion") Vị Trí
             input(type="number" id="posittion" name="posittion" class="form-control" placeholder="Tự Động Tăng" min='1') 

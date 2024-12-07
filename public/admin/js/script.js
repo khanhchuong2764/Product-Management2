@@ -208,3 +208,26 @@ if (showAlert) {
 
 
 // End Show Alert
+
+// Uploads Images
+const upLoadImages = document.querySelector("[uploads-image]");
+if (upLoadImages) {
+    const inputUploadImage = document.querySelector("[uploads-image-input]");
+    const ImguploadsImage = document.querySelector("[uploads-image-previews]");
+    const buttonDeletImage = document.querySelector("[button-delete-uploads]");
+    inputUploadImage.addEventListener("change",(e) => {
+        const file = e.target.files[0];
+        if (file) {
+            ImguploadsImage.src = URL.createObjectURL(file);
+            buttonDeletImage.classList.remove("button-hidden");
+        }
+    })
+    if (buttonDeletImage) {
+        buttonDeletImage.addEventListener("click", () => {
+            inputUploadImage.value="";
+            ImguploadsImage.src="";
+            buttonDeletImage.classList.add("button-hidden");
+        })
+    }
+}
+// End Uploads Images
