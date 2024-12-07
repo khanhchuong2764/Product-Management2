@@ -39,7 +39,6 @@ if (formsearch) {
     formsearch.addEventListener("submit", (e) => {
         e.preventDefault(); 
         const keyword = e.target.elements.keyword.value;
-        console.log(keyword);
         if (keyword) {
             url.searchParams.set("keyword",keyword);
         }else {
@@ -215,6 +214,9 @@ if (upLoadImages) {
     const inputUploadImage = document.querySelector("[uploads-image-input]");
     const ImguploadsImage = document.querySelector("[uploads-image-previews]");
     const buttonDeletImage = document.querySelector("[button-delete-uploads]");
+    if(ImguploadsImage.getAttribute("src") != "") {
+        buttonDeletImage.classList.remove("button-hidden");
+    }
     inputUploadImage.addEventListener("change",(e) => {
         const file = e.target.files[0];
         if (file) {

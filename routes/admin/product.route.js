@@ -26,4 +26,8 @@ Router.get('/create', ProductController.create);
 
 Router.post('/create',upload.single('thumbnail'),ProductValidate.createPost, ProductController.createPost);
 
+Router.get('/edit/:id', ProductController.edit);
+
+Router.patch('/edit/:id',upload.single('thumbnail'),ProductValidate.createPost,  ProductController.editPatch);
+
 module.exports = Router;

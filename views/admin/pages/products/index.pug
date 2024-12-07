@@ -7,6 +7,7 @@ include ../../mixins/alert.pug
 block main
     h2 Danh Sách Sản Phẩm
     +alertsuccess(5000)
+    +alerterror(5000)
     .card.mb-3
         .card-header Bộ lọc và Tìm kiếm
         .card-body     
@@ -57,7 +58,7 @@ block main
                                             a(href="javascript::" class="badge badge-danger" data-id=item.id data-status=item.status  change-status  ) Dừng Hoạt Động
                                     td  
                                         a(class="btn btn-secondary btn-sm btn-detail" ) Chi Tiết
-                                        a(class="btn btn-warning btn-sm" ) Sửa
+                                        a(class="btn btn-warning btn-sm" href=`${PrefixAdmin}/products/edit/${item.id}` ) Sửa
                                         button(class="btn btn-danger btn-sm ml-1" data-id=item.id btn-delete-item ) Xóa
     +pagination(pagination) 
     form(action="", method="POST" data-path=`${PrefixAdmin}/products/change-status` id="form-change-status")    
