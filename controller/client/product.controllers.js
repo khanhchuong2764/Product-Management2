@@ -32,6 +32,6 @@ module.exports.detail = async (req, res) => {
     });
   } catch (error) {
       req.flash('error', 'Không tìm thấy sản phẩm');
-      res.redirect(`${SystemConfig.PrefixAdmin}/products`);
+      res.redirect(`/products`);
   }
 }
