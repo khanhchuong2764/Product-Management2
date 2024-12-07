@@ -3,6 +3,7 @@ const multer  = require('multer');
 const StorAgeMulter = require("../../helpers/StorageMulter");
 const upload = multer({ storage: StorAgeMulter() })
 const ProductController =require("../../controller/admin/product.controllers");
+const ProductValidate = require("../../validates/admin/products.validate");
 const Router = express.Router();
 
 Router.get('/', ProductController.index);
@@ -23,6 +24,6 @@ Router.patch('/restore/:id', ProductController.RestoreItem);
 
 Router.get('/create', ProductController.create);
 
-Router.post('/create',upload.single('thumbnail'), ProductController.createPost);
+Router.post('/create',upload.single('thumbnail'),ProductValidate.createPost, ProductController.createPost);
 
 module.exports = Router;
