@@ -31,7 +31,7 @@ app.set('view engine', 'pug');
 app.use(express.static(`${__dirname}/public`));
 
 // Flash
-app.use(cookieParser(process.env.cokkieparser));
+app.use(cookieParser("sdkdfjshfhshdf"));
 app.use(session({ cookie: { maxAge: 60000 }}));
 app.use(flash());
 // End Flash
@@ -42,6 +42,7 @@ database.connect();
 //Router
 Router(app);
 RouterAdmin(app);
+
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
 })
