@@ -20,15 +20,8 @@ const database = require("./config/database");
 const app = express();
 const port = process.env.Port;
 
-// parse application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: false }))
 
 app.use(methodOverride('_method'))
-
-app.set('views', `${__dirname}/views`);
-app.set('view engine', 'pug');
-
-app.use(express.static(`${__dirname}/public`));
 
 // Flash
 app.use(cookieParser("sdkdfjshfhshdf"));
@@ -36,12 +29,23 @@ app.use(session({ cookie: { maxAge: 60000 }}));
 app.use(flash());
 // End Flash
 
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }))
+
+app.set('views', `${__dirname}/views`);
+app.set('view engine', 'pug');
+
+
 app.locals.PrefixAdmin = SystemConfig.PrefixAdmin;
-//Connect Database
-database.connect();
+
 //Router
 Router(app);
 RouterAdmin(app);
+
+app.use(express.static(`${__dirname}/public`));
+
+//Connect Database
+database.connect();
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
