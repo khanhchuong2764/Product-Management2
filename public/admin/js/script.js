@@ -15,19 +15,19 @@ if (buttonStatus.length > 0) {
     })
 }
 
-// const buttonStatus2 = document.querySelector("select[name='status']");
-// if (buttonStatus2){
-//     let url = new URL(window.location.href);
-//     buttonStatus2.addEventListener("change", (e) => {
-//         const status = buttonStatus2.value;
-//         if(status) {
-//             url.searchParams.set("status",status);
-//         }else {
-//             url.searchParams.delete("status");
-//         }
-//         window.location.href=url.href;
-//     })
-// }
+const SelecteStatus = document.querySelector("[select-status]");
+if (SelecteStatus){
+    let url = new URL(window.location.href);
+    SelecteStatus.addEventListener("change", (e) => {
+        const status = e.target.value;
+        if(status) {
+            url.searchParams.set("status",status);
+        }else {
+            url.searchParams.delete("status");
+        }
+        window.location.href=url.href;
+    })
+}
 
 // End Button Status
 

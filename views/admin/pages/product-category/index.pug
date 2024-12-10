@@ -1,35 +1,33 @@
 extends ../../layouts/default.pug
+include ../../mixins/alert.pug
 include ../../mixins/fillter-status.pug
 include ../../mixins/search.pug
-include ../../mixins/pagination.pug
 include ../../mixins/form-change-multi.pug
-include ../../mixins/alert.pug
 include ../../mixins/sort.pug
+
 block main
-    h2 Danh Sách Sản Phẩm
+    h2 Danh Mục Sản Phẩm
     +alertsuccess(5000)
     +alerterror(5000)
     .card.mb-3
         .card-header Bộ lọc và Tìm kiếm
         .card-body     
             .row 
-                .col-6
-                    +fillter-status(FillterStatus)
+                .col-3  
+                    +fillter-status-select(FillterStatus)
+                .col-3
                 .col-3 
-                    //- select(name="status" class="form-control")
-                    //-     each item in FillterStatus
-                    //-         option(value=item.status selected=item.class=="active" ? true : false) --#{item.name}--
-                    +search(keyword)
+                   +search(keyword)
     .card.mb-3
-        .card-header Danh Sách Sản Phẩm
+        .card-header Danh Mục Sản Phẩm
             .card-body
                 .row 
                     .col-4
-                        +form-change-multi(`${PrefixAdmin}/products/change-multi?_method=PATCH`)
+                        +form-change-multi(`${PrefixAdmin}/product-category/change-multi?_method=PATCH`)
                     .col-5
-                        +sort()
+                        +sort-category()
                     .col-3
-                        a(href=`${PrefixAdmin}/products/create` class="btn btn-outline-success") +Thêm Mới
+                        a(href=`${PrefixAdmin}/product-category/create` class="btn btn-outline-success") +Thêm Mới
                 table(class="table table-hover" checkbox-multi)
                         thead
                             tr  
@@ -37,21 +35,19 @@ block main
                                     input(type="checkbox" name="checkall")
                                 th STT
                                 th Hình Ảnh
-                                th Tiêu Đề
-                                th Giá
+                                th Tên danh mục
                                 th Vị trí
                                 th Trạng Thái
                                 th Hành Động
                         tbody 
-                            each item,index in product
+                            each item,index in records
                                 tr      
                                     td
                                         input(type="checkbox" name="id" value=item.id)
-                                    td #{pagination.skip + index + 1}
+                                    td #{index + 1}
                                     td
                                         img(src=item.thumbnail, width="120px" height="auto" alt=item.title)
                                     td #{item.title}
-                                    td #{item.price}$
                                     td 
                                         input(type="number" min="1" name="position" style="width:60px" value=item.posittion)
                                     td 
@@ -60,9 +56,8 @@ block main
                                         else
                                             a(href="javascript::" class="badge badge-danger" data-id=item.id data-status=item.status  change-status  ) Dừng Hoạt Động
                                     td  
-                                        a(class="btn btn-secondary btn-sm btn-detail" href=`${PrefixAdmin}/products/detail/${item.id}` ) Chi Tiết
-                                        a(class="btn btn-warning btn-sm" href=`${PrefixAdmin}/products/edit/${item.id}` ) Sửa
+                                        a(class="btn btn-secondary btn-sm btn-detail" href=`${PrefixAdmin}/product-category/detail/${item.id}` ) Chi Tiết
+                                        a(class="btn btn-warning btn-sm" href=`${PrefixAdmin}/product-category/edit/${item.id}` ) Sửa
                                         button(class="btn btn-danger btn-sm ml-1" data-id=item.id btn-delete-item ) Xóa
-    +pagination(pagination) 
-    form(action="", method="POST" data-path=`${PrefixAdmin}/products/change-status` id="form-change-status")    
-    form(action="", method="POST" data-path=`${PrefixAdmin}/products/delete` id="form-delete-item")    
+    form(action="", method="POST" data-path=`${PrefixAdmin}/product-category/change-status` id="form-change-status")    
+    form(action="", method="POST" data-path=`${PrefixAdmin}/product-category/delete` id="form-delete-item")    

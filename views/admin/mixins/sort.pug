@@ -1,0 +1,21 @@
+mixin sort()
+    div(sort) 
+        .d-flex.align-items-center
+            select(name="sort" class="form-control select-sort" sort-select)
+                option(value="posittion-desc") Vị Trí Giảm Dần
+                option(value="posittion-asc") Vị Trí Tăng Dần
+                option(value="price-desc") Giá Giảm Dần
+                option(value="price-asc") Giá Tăng Dần
+                option(value="title-asc") Tiêu Đề A-Z
+                option(value="title-desc") Tiêu Đề Z-A
+            button(class="btn btn-danger ml-2" sort-clear) Clear
+
+mixin sort-category()
+    div(sort) 
+        .d-flex.align-items-center
+            select(name="sort" class="form-control select-sort" sort-select)
+                option(value="posittion-desc") Vị Trí Giảm Dần
+                option(value="posittion-asc") Vị Trí Tăng Dần
+                option(value="title-asc") Tiêu Đề A-Z
+                option(value="title-desc") Tiêu Đề Z-A
+            button(class="btn btn-danger ml-2" sort-clear) Clear
