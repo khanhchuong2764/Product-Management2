@@ -30,9 +30,15 @@ module.exports.index = async(req, res) => {
         CountProduct,
         req.query
     );
+    const sort = {};
+    if (req.query.sortkey && req.query.sortValue) {
+        sort[req.query.sortkey] = req.query.sortValue;
+    }else { 
+        sort.posittion = "desc";
+    }
     //End Pagination
     const product = await Product.find(find)
-    .sort({posittion:"desc"})
+    .sort(sort)
     .limit(ObjectPagination.limitItem)
     .skip(ObjectPagination.skip);
     res.render("admin/pages/products/index",{
@@ -199,9 +205,6 @@ module.exports.createPost = async (req, res) => {
             req.body.posittion = countProduct + 1;
         }else {
             req.body.posittion= parseInt(req.body.posittion);
-        }
-        if(req.file) {
-            req.body.thumbnail = `/uploads/${req.file.filename}`;
         }
         const product = new Product(req.body);
         await product.save();

@@ -23,9 +23,20 @@ block main
         .card-header Danh Sách Sản Phẩm
             .card-body
                 .row 
-                    .col-8
-                        +form-change-multi(`${PrefixAdmin}/products/change-multi?_method=PATCH`)
                     .col-4
+                        +form-change-multi(`${PrefixAdmin}/products/change-multi?_method=PATCH`)
+                    .col-5
+                        div(sort) 
+                            .d-flex.align-items-center
+                                select(name="sort" class="form-control select-sort" sort-select)
+                                    option(value="posittion-desc") Vị Trí Giảm Dần
+                                    option(value="posittion-asc") Vị Trí Tăng Dần
+                                    option(value="price-desc") Giá Giảm Dần
+                                    option(value="price-asc") Giá Tăng Dần
+                                    option(value="title-asc") Tiêu Đề A-Z
+                                    option(value="title-desc") Tiêu Đề Z-A
+                                button(class="btn btn-danger ml-2" sort-clear) Clear
+                    .col-3
                         a(href=`${PrefixAdmin}/products/create` class="btn btn-outline-success") +Thêm Mới
                 table(class="table table-hover" checkbox-multi)
                         thead

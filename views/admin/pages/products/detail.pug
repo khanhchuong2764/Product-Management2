@@ -31,7 +31,7 @@ block main
         div(class="mb-4") Vị Trí: <b>#{record.posittion}</b>
     
     if (record.description) 
-        div(class="mb-4") Mô Tả: #{record.description}
+        div(class="mb-4") Mô Tả: !{record.description}
     
 
     a(class="btn btn-warning btn-sm" href=`${PrefixAdmin}/products/edit/${record.id}` ) Chỉnh Sửa

@@ -16,7 +16,7 @@ block main
             input(type="text" id="title" name="title" class="form-control" required value=record.title)
         div(class="form-group")
             label(for="desc") Mô Tả
-            textarea(name="description" id="desc" class="form-control" rows ="5") #{record.description}
+            textarea(name="description" id="desc" class="form-control textarea-mce" rows ="5") #{record.description}
         div(class="form-group")
             label(for="price") Giá
             input(type="number" id="price" name="price" class="form-control" value=record.price min="0") 

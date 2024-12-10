@@ -1,9 +1,9 @@
 const express = require('express');
 const multer  = require('multer');
-const StorAgeMulter = require("../../helpers/StorageMulter");
-const upload = multer({ storage: StorAgeMulter() })
+const upload = multer();
 const ProductController =require("../../controller/admin/product.controllers");
 const ProductValidate = require("../../validates/admin/products.validate");
+const UploadsCloud = require("../../middleware/admin/UploadCloud");
 const Router = express.Router();
 
 Router.get('/', ProductController.index);
@@ -24,7 +24,7 @@ Router.patch('/restore/:id', ProductController.RestoreItem);
 
 Router.get('/create', ProductController.create);
 
-Router.post('/create',upload.single('thumbnail'),ProductValidate.createPost, ProductController.createPost);
+Router.post('/create',upload.single('thumbnail'),UploadsCloud.upload,ProductValidate.createPost, ProductController.createPost);
 
 Router.get('/edit/:id', ProductController.edit);
 
