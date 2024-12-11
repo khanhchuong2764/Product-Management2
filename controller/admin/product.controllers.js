@@ -1,9 +1,10 @@
 const Product = require("../../model/product.model");
+const ProductCategory = require("../../model/product-category.model");
 const FillterStatusHelper = require("../../helpers/FillterStatus");
 const SearchHelper = require("../../helpers/search");
 const PaginationHelper = require("../../helpers/pagination");
 const SystemConfig = require("../../config/system");
-
+const CreateTreeHelper = require("../../helpers/createHelper");
 // [GET] /admin/products
 module.exports.index = async(req, res) => {
     // Bộ Lọc
@@ -188,9 +189,15 @@ module.exports.RestoreItem = async (req, res) => {
 }
 
 // [GET] /admin/products/create
-module.exports.create = (req, res) => {
+module.exports.create = async (req, res) => {
+    const find = {
+        deleted : false
+    };
+    const records = await ProductCategory.find(find);
+    const NewRecords = CreateTreeHelper.tree(records);
     res.render("admin/pages/products/create",{
-        titlePage:"Thêm Mới Sản Phẩm"
+        titlePage:"Thêm Mới Sản Phẩm",
+        records:NewRecords
     });
 }
 
@@ -225,10 +232,13 @@ module.exports.edit = async (req, res) => {
             _id : id,
             deleted : false
         }
-        const record = await Product.findOne(find);
+        const record = await Product.findOne(find); 
+        const records = await ProductCategory.find({deleted : false});
+        const NewRecords = CreateTreeHelper.tree(records);
         res.render("admin/pages/products/edit",{
             titlePage:"Chỉnh Sửa Sản Phẩm",
-            record:record
+            record:record,
+            records:NewRecords
         });
     } catch (error) {
         req.flash('error', 'Không tìm thấy sản phẩm');
@@ -238,7 +248,6 @@ module.exports.edit = async (req, res) => {
 
 // [PATCH] /admin/products/edit/:id
 module.exports.editPatch = async (req, res) => {
-    console.log(req.body);
     const id = req.params.id;
     req.body.price= parseInt(req.body.price);
     req.body.discountPercentage= parseInt(req.body.discountPercentage);

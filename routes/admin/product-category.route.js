@@ -18,4 +18,10 @@ Router.post('/create',upload.single('thumbnail'),UploadsCloud.upload,ProductCate
 
 Router.delete('/delete/:id', controller.deleteItem);
 
+Router.get('/edit/:id', controller.edit);
+
+Router.patch('/edit/:id',upload.single('thumbnail'),UploadsCloud.upload,ProductCategoryValidate.createPost, controller.editPatch);
+
+Router.get('/detail/:id', controller.detail);
+
 module.exports = Router;

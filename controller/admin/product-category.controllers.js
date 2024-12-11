@@ -2,6 +2,7 @@ const ProductCategory = require("../../model/product-category.model");
 const SystemConfig = require("../../config/system");
 const FillterStatusHelper = require("../../helpers/FillterStatus");
 const SearchHelper = require("../../helpers/search");
+const CreateTreeHelper = require("../../helpers/createHelper");
 // [GET] /admin/product-category
 module.exports.index = async (req,res) => {
     const FillterStatus = FillterStatusHelper(req.query);
@@ -26,11 +27,12 @@ module.exports.index = async (req,res) => {
         sort.posittion = "desc";
     }
     const records = await ProductCategory.find(find).sort(sort);
+    const NewRecords = CreateTreeHelper.tree(records);
     res.render("admin/pages/product-category/index",{
         titlePage:"Danh Mục Sản Phẩm",
-        records :records,
+        records :NewRecords,
         FillterStatus:FillterStatus,
-        keyword:ObjectSearch.keyword
+        keyword:ObjectSearch.keyword,
     })  
 }
 // [GET] /admin/product-category/create
@@ -39,9 +41,10 @@ module.exports.create = async (req,res) => {
         deleted : false
     };
     const records = await ProductCategory.find(find);
+    const NewRecords = CreateTreeHelper.tree(records);
     res.render("admin/pages/product-category/create",{
         titlePage:"Tạo Danh Mục Sản Phẩm",
-        records :records
+        records :NewRecords
     })  
 }
 
@@ -114,4 +117,55 @@ module.exports.ChangeMulti = async (req, res) => {
             break;
     }
     res.redirect('back');
+}
+
+
+// [GET] /admin/product-category/edit/:id
+module.exports.edit = async (req,res) => {
+    try {
+        const id = req.params.id;
+        const find = {
+            deleted : false,
+        };
+        const records = await ProductCategory.find(find);
+        const NewRecords = CreateTreeHelper.tree(records);
+        const data = await ProductCategory.findOne({_id : id,deleted : false});
+        res.render("admin/pages/product-category/edit",{
+            titlePage:"Chỉnh Danh Mục Sản Phẩm",
+            records :NewRecords,
+            data:data
+        })  
+    } catch (error) {
+        res.redirect(`${SystemConfig.PrefixAdmin}/product-category`);
+    }
+}
+
+// [PATCH] /admin/product-category/edit/:id
+module.exports.editPatch = async (req,res) => {
+    try {
+        const id = req.params.id;
+        req.body.posittion = parseInt(req.body.posittion);
+        await ProductCategory.updateOne({_id : id}, req.body);
+        req.flash("success","Cập Nhật Thành Công");
+    } catch (error) {
+        req.flash("error","Cập Nhật Thất Bại");
+    }
+    res.redirect('back');
+}
+
+
+// [GET] /admin/product-category/detail/:id
+module.exports.detail = async (req,res) => {
+    const id = req.params.id;
+    const record = await ProductCategory.findOne({_id : id, deleted : false});
+    const parent_id = record.parent_id;
+    let recordparent = {};
+    if (parent_id) {
+        recordparent = await ProductCategory.findOne({_id : parent_id ,deleted : false});
+    }
+    res.render("admin/pages/product-category/detail",{
+        titlePage: record.title,
+        record:record,
+        recordparent:recordparent
+    })
 }

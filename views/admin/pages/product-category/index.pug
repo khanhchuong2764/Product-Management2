@@ -4,6 +4,7 @@ include ../../mixins/fillter-status.pug
 include ../../mixins/search.pug
 include ../../mixins/form-change-multi.pug
 include ../../mixins/sort.pug
+include ../../mixins/table-tree.pug
 
 block main
     h2 Danh Mục Sản Phẩm
@@ -40,24 +41,6 @@ block main
                                 th Trạng Thái
                                 th Hành Động
                         tbody 
-                            each item,index in records
-                                tr      
-                                    td
-                                        input(type="checkbox" name="id" value=item.id)
-                                    td #{index + 1}
-                                    td
-                                        img(src=item.thumbnail, width="120px" height="auto" alt=item.title)
-                                    td #{item.title}
-                                    td 
-                                        input(type="number" min="1" name="position" style="width:60px" value=item.posittion)
-                                    td 
-                                        if(item.status == "active")
-                                            a(href="javascript::" class="badge badge-success" data-id=item.id data-status=item.status change-status ) Hoạt Động
-                                        else
-                                            a(href="javascript::" class="badge badge-danger" data-id=item.id data-status=item.status  change-status  ) Dừng Hoạt Động
-                                    td  
-                                        a(class="btn btn-secondary btn-sm btn-detail" href=`${PrefixAdmin}/product-category/detail/${item.id}` ) Chi Tiết
-                                        a(class="btn btn-warning btn-sm" href=`${PrefixAdmin}/product-category/edit/${item.id}` ) Sửa
-                                        button(class="btn btn-danger btn-sm ml-1" data-id=item.id btn-delete-item ) Xóa
+                            +table-tree(records)
     form(action="", method="POST" data-path=`${PrefixAdmin}/product-category/change-status` id="form-change-status")    
     form(action="", method="POST" data-path=`${PrefixAdmin}/product-category/delete` id="form-delete-item")    
