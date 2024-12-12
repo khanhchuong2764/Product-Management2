@@ -30,4 +30,4 @@ block main
                                             a(class="btn btn-secondary btn-sm btn-detail" href=`${PrefixAdmin}/roles/detail/${item.id}` ) Chi Tiết
                                             a(class="btn btn-warning btn-sm" href=`${PrefixAdmin}/roles/edit/${item.id}` ) Sửa
                                             button(class="btn btn-danger btn-sm ml-1" data-id=item.id btn-delete-item ) Xóa
-    form(action="", method="POST" data-path=`${PrefixAdmin}/roles/delete` id="form-delete-item")
+    form(action="", method="POST" data-path=`${PrefixAdmin}/roles/delete` id="form-delete-item" class="d-none")

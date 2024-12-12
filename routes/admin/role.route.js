@@ -16,4 +16,8 @@ Router.patch('/edit/:id', RoleController.editPatch);
 
 Router.get('/detail/:id', RoleController.detail);
 
+Router.get('/permission', RoleController.permission);
+
+Router.patch('/permission', RoleController.permissionPatch);
+
 module.exports = Router;
