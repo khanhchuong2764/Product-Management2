@@ -1,0 +1,18 @@
+extends ../../layouts/default.pug
+include ../../mixins/alert.pug
+block main  
+    +alerterror(5000)
+    h1(class="mb-4") Tạo Nhóm Quyền
+    form(
+        action=`${PrefixAdmin}/roles/create` 
+        method="POST", 
+    ) 
+        div(class="form-group")
+            label(for="title") Tiêu Đề
+            input(type="text" id="title" name="title" class="form-control" required)
+        div(class="form-group")
+            label(for="desc") Mô Tả
+            input(type="text" id="desc" name="description" class="form-control")
+        div(class="form-group")
+            button(type="submit" class="btn btn-primary") Tạo Mới 
+

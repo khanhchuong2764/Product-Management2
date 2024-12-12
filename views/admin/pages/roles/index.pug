@@ -1,0 +1,33 @@
+extends ../../layouts/default.pug
+include ../../mixins/alert.pug
+block main
+    +alertsuccess(5000)
+    +alerterror(5000)
+    h2 Danh Sách Nhóm Quyền
+    .card.mb-3
+        .card-header Nhóm Quyền
+            .card-body
+                .row 
+                    .col-4
+                    .col-5
+                    .col-3
+                        a(href=`${PrefixAdmin}/roles/create` class="btn btn-outline-success") +Thêm Mới
+                table(class="table table-hover")
+                        thead
+                            tr  
+                                th STT
+                                th Nhóm Quyền
+                                th Mô Tả Ngắn
+                                th Hành Động
+                        tbody 
+                            if(record.length > 0)
+                                each item,index in record
+                                    tr      
+                                        td #{index + 1}
+                                        td #{item.title}
+                                        td #{item.description}
+                                        td  
+                                            a(class="btn btn-secondary btn-sm btn-detail" href=`${PrefixAdmin}/roles/detail/${item.id}` ) Chi Tiết
+                                            a(class="btn btn-warning btn-sm" href=`${PrefixAdmin}/roles/edit/${item.id}` ) Sửa
+                                            button(class="btn btn-danger btn-sm ml-1" data-id=item.id btn-delete-item ) Xóa
+    form(action="", method="POST" data-path=`${PrefixAdmin}/roles/delete` id="form-delete-item")
