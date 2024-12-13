@@ -24,7 +24,7 @@ block main
                 .card-body
                     .row 
                         .col-8
-                            if (role.permission.includes("products-trash-edit"))
+                            if (role.permission.includes("products-trash-create") || role.permission.includes("products-trash-delete"))
                                 +form-change-multi2(`${PrefixAdmin}/products/trash/change-multi?_method=PATCH`)
                     table(class="table table-hover" checkbox-multi)
                             thead
@@ -36,7 +36,8 @@ block main
                                     th Tiêu Đề
                                     th Giá
                                     th Trạng Thái
-                                    th Hành Động
+                                    if role.permission.includes("products-trash-delete") || role.permission.includes("products-trash-create")
+                                        th Hành Động
                             tbody 
                                 each item,index in product
                                     tr      

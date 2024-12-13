@@ -21,8 +21,10 @@ mixin form-change-multi2(path)
                     option(selected disabled) --Chọn Hành Động--  
                     option(value="active") Hoạt Động   
                     option(value="inactive") Dừng Hoạt Động
-                    option(value="delete-all") Xóa Tất Cả
-                    option(value="restore-all") Khôi Phục
+                    if (role.permission.includes("products-trash-delete"))
+                        option(value="delete-all") Xóa Tất Cả
+                    if (role.permission.includes("products-trash-create"))
+                        option(value="restore-all") Khôi Phục
             .form-group
                 input(type="text" name="ids" value="" class="form-control d-none")  
                 button(type="submit" class="btn btn-primary") Áp Dụng
