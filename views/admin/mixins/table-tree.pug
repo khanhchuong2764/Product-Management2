@@ -10,14 +10,22 @@ mixin table-tree(records,level = 0)
             td #{preFix} #{item.title}
             td 
                 input(type="number" min="1" name="position" style="width:60px" value=item.posittion)
-            td 
-                if(item.status == "active")
-                    a(href="javascript::" class="badge badge-success" data-id=item.id data-status=item.status change-status ) Hoạt Động
-                else
-                    a(href="javascript::" class="badge badge-danger" data-id=item.id data-status=item.status  change-status  ) Dừng Hoạt Động
+            td  
+                if (role.permission.includes("products-category-changeStatus"))
+                    if(item.status == "active")
+                        a(href="javascript::" class="badge badge-success" data-id=item.id data-status=item.status change-status ) Hoạt Động
+                    else
+                        a(href="javascript::" class="badge badge-danger" data-id=item.id data-status=item.status  change-status  ) Dừng Hoạt Động
+                else 
+                    if(item.status == "active")
+                        span( class="badge badge-success") Hoạt Động
+                    else
+                        span( class="badge badge-danger") Dừng Hoạt Động
             td  
                 a(class="btn btn-secondary btn-sm btn-detail" href=`${PrefixAdmin}/product-category/detail/${item.id}` ) Chi Tiết
-                a(class="btn btn-warning btn-sm" href=`${PrefixAdmin}/product-category/edit/${item.id}` ) Sửa
-                button(class="btn btn-danger btn-sm ml-1" data-id=item.id btn-delete-item ) Xóa
+                if (role.permission.includes("products-category-edit"))
+                    a(class="btn btn-warning btn-sm" href=`${PrefixAdmin}/product-category/edit/${item.id}` ) Sửa
+                if (role.permission.includes("products-category-delete"))
+                    button(class="btn btn-danger btn-sm ml-1" data-id=item.id btn-delete-item ) Xóa
             if (item.childrent && item.childrent.length > 0)
                 +table-tree(item.childrent,level + 1)

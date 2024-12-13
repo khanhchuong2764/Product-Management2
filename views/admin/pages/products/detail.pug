@@ -33,5 +33,5 @@ block main
     if (record.description) 
         div(class="mb-4") Mô Tả: !{record.description}
     
-
-    a(class="btn btn-warning btn-sm" href=`${PrefixAdmin}/products/edit/${record.id}` ) Chỉnh Sửa
+    if (role.permission.includes("products-edit"))
+        a(class="btn btn-warning btn-sm" href=`${PrefixAdmin}/products/edit/${record.id}` ) Chỉnh Sửa

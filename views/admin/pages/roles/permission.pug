@@ -117,6 +117,49 @@ block main
                     each item in records
                         td(class="text-center") 
                             input(type="checkbox")
+                //-Tài Khoản
+                tr
+                    td(colspan="4")
+                        b Tài Khoản
+                tr(data-name="accounts-view")
+                    td Xem
+                    each item in records
+                        td(class="text-center") 
+                            input(type="checkbox")
+                tr(data-name="accounts-create")
+                    td Thêm Mới
+                    each item in records
+                        td(class="text-center") 
+                            input(type="checkbox")
+                tr(data-name="accounts-edit")
+                    td Cập Nhật
+                    each item in records
+                        td(class="text-center") 
+                            input(type="checkbox")
+                tr(data-name="accounts-delete")
+                    td Xóa
+                    each item in records
+                        td(class="text-center") 
+                            input(type="checkbox")
+                //-Thùng Rác
+                tr
+                    td(colspan="4")
+                        b Thùng Rác
+                tr(data-name="products-trash-view")
+                    td Xem
+                    each item in records
+                        td(class="text-center") 
+                            input(type="checkbox")
+                tr(data-name="products-trash-create")
+                    td Khôi Phục
+                    each item in records
+                        td(class="text-center") 
+                            input(type="checkbox")
+                tr(data-name="products-trash-delete")
+                    td Xóa
+                    each item in records
+                        td(class="text-center") 
+                            input(type="checkbox")
                             
     form(action=`${PrefixAdmin}/roles/permission?_method=PATCH`, method="post" id="form-change-permission" class="d-none")
         .form-group

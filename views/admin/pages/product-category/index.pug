@@ -14,7 +14,7 @@ block main
         .card-header Bộ lọc và Tìm kiếm
         .card-body     
             .row 
-                .col-3  
+                .col-3
                     +fillter-status-select(FillterStatus)
                 .col-3
                 .col-3 
@@ -24,11 +24,13 @@ block main
             .card-body
                 .row 
                     .col-4
-                        +form-change-multi(`${PrefixAdmin}/product-category/change-multi?_method=PATCH`)
+                        if (role.permission.includes("products-category-edit"))
+                            +form-change-multi(`${PrefixAdmin}/product-category/change-multi?_method=PATCH`)
                     .col-5
                         +sort-category()
                     .col-3
-                        a(href=`${PrefixAdmin}/product-category/create` class="btn btn-outline-success") +Thêm Mới
+                        if (role.permission.includes("products-category-create"))
+                            a(href=`${PrefixAdmin}/product-category/create` class="btn btn-outline-success") +Thêm Mới
                 table(class="table table-hover" checkbox-multi)
                         thead
                             tr  

@@ -26,5 +26,5 @@ block main
     if (record.description) 
         div(class="mb-4") Mô Tả: !{record.description}
     
-
-    a(class="btn btn-warning btn-sm" href=`${PrefixAdmin}/product-category/edit/${record.id}` ) Chỉnh Sửa
+    if (role.permission.includes("products-category-edit"))
+        a(class="btn btn-warning btn-sm" href=`${PrefixAdmin}/product-category/edit/${record.id}` ) Chỉnh Sửa

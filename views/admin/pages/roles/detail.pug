@@ -8,5 +8,5 @@ block main
     if (record.description) 
         div(class="mb-4") Mô Tả: !{record.description}
     
-
-    a(class="btn btn-warning btn-sm" href=`${PrefixAdmin}/roles/edit/${record.id}` ) Chỉnh Sửa
+    if (role.permission.includes("roles-edit"))
+        a(class="btn btn-warning btn-sm" href=`${PrefixAdmin}/roles/edit/${record.id}` ) Chỉnh Sửa

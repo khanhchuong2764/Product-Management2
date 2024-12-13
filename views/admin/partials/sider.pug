@@ -3,13 +3,21 @@
         ul 
             li 
                 a(href=`${PrefixAdmin}/dashboard`) Tổng Quan 
-            li 
-                a(href=`${PrefixAdmin}/product-category`) Danh Mục Sản Phẩm  
-            li 
-                a(href=`${PrefixAdmin}/products`) Danh Sách Sản Phẩm
-            li 
-                a(href=`${PrefixAdmin}/roles`) Nhóm Quyền
-            li 
-                a(href=`${PrefixAdmin}/roles/permission`) Phân Quyền
-            li 
-                a(href=`${PrefixAdmin}/products/trash`) Thùng Rác 
+            if (role.permission.includes("products-category-view"))
+                li 
+                    a(href=`${PrefixAdmin}/product-category`) Danh Mục Sản Phẩm
+            if (role.permission.includes("products-view"))  
+                li 
+                    a(href=`${PrefixAdmin}/products`) Danh Sách Sản Phẩm
+            if (role.permission.includes("roles-view"))
+                li 
+                    a(href=`${PrefixAdmin}/roles`) Nhóm Quyền
+            if (role.permission.includes("roles-permissions"))
+                li 
+                    a(href=`${PrefixAdmin}/roles/permission`) Phân Quyền
+            if (role.permission.includes("accounts-view"))
+                li 
+                    a(href=`${PrefixAdmin}/accounts`) Danh Sách Tài Khoản
+            if (role.permission.includes("products-trash-view"))
+                li 
+                    a(href=`${PrefixAdmin}/products/trash`) Thùng Rác 
