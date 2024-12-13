@@ -1,4 +1,5 @@
 const Product = require("../../model/product.model");
+const Account = require("../../model/accounts.model");
 const ProductCategory = require("../../model/product-category.model");
 const FillterStatusHelper = require("../../helpers/FillterStatus");
 const SearchHelper = require("../../helpers/search");
@@ -42,6 +43,13 @@ module.exports.index = async(req, res) => {
     .sort(sort)
     .limit(ObjectPagination.limitItem)
     .skip(ObjectPagination.skip);
+    
+    for (const item  of product) {
+        const user = await Account.findOne({_id : item.createdBy.account_id}).select("fullName");
+        if(user) {
+            item.AccountFullName = user.fullName;
+        }
+    }
     res.render("admin/pages/products/index",{
         titlePage:"Danh Sách Sản Phẩm",
         product:product,
@@ -126,7 +134,10 @@ module.exports.DeleteItem = async (req, res) => {
     const id = req.params.id;
     await Product.updateOne({_id: id},{
         deleted: true,
-        deleteAt: new Date()    
+        deletedBy: {
+            account_id : res.locals.user.id,
+            deletedAt: new Date()
+        }
     });
     req.flash('success', 'Xóa sản phẩm thành công');
     res.redirect('back');
@@ -212,6 +223,9 @@ module.exports.createPost = async (req, res) => {
             req.body.posittion = countProduct + 1;
         }else {
             req.body.posittion= parseInt(req.body.posittion);
+        }   
+        req.body.createdBy = {
+            account_id :res.locals.user.id
         }
         const product = new Product(req.body);
         await product.save();

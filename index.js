@@ -9,6 +9,8 @@ const cookieParser = require('cookie-parser');
 
 const flash = require('express-flash');
 
+const moment = require('moment');
+
 const session = require('express-session');
 
 const methodOverride = require('method-override');
@@ -43,6 +45,9 @@ app.set('view engine', 'pug');
 
 
 app.locals.PrefixAdmin = SystemConfig.PrefixAdmin;
+
+app.locals.moment = moment;
+
 
 //Router
 Router(app);
