@@ -31,6 +31,9 @@ module.exports.create = async (req, res) => {
 
 // [POST] /admin/accounts/create
 module.exports.createPost = async (req, res) => {
+    if(!res.locals.role.permission.includes("accounts-create")) {
+        return;
+    }
     const ExisEmail = await Account.findOne({
         email:req.body.email,
         deleted: false
@@ -71,6 +74,9 @@ module.exports.edit = async (req, res) => {
 
 // [POST] /admin/accounts/edit/:id
 module.exports.editPatch = async (req, res) => {
+    if(!res.locals.role.permission.includes("accounts-edit")) {
+        return;
+    }
     const id =req.params.id;
     const ExisEmail = await Account.findOne({
         _id : {$ne : id},

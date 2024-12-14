@@ -60,17 +60,24 @@ module.exports.index = async(req, res) => {
 }
 // [PATCH] /admin/products/change-status/:status/:id
 module.exports.ChangeStatus = async (req, res) => {
-    const id = req.params.id;
-    const status = req.params.status;
-    await Product.updateOne({_id: id},{status:status});
-    req.flash('success', 'Thay đổi trạng thái sản phẩm thành công');
-    res.redirect('back');
+    if(res.locals.role.permission.includes("products-changeStatus")) {
+        const id = req.params.id;
+        const status = req.params.status;
+        await Product.updateOne({_id: id},{status:status});
+        req.flash('success', 'Thay đổi trạng thái sản phẩm thành công');
+        res.redirect('back');
+    }else {
+        return;
+    }
 }
 
 // [PATCH] /admin/products/change-multi
 module.exports.ChangeMulti = async (req, res) => {
     const type = req.body.type;
     const ids = req.body.ids.split(", ");
+    if(!res.locals.role.permission.includes("products-edit")) {
+        return;
+    }
     switch (type) {
         case "active":
             await Product.updateMany({_id : {$in: ids}}, {status : "active"})
@@ -83,7 +90,10 @@ module.exports.ChangeMulti = async (req, res) => {
         case "delete-all":
             await Product.updateMany({_id : {$in: ids}},{
                     deleted : true,   
-                    deleteAt: new Date()
+                    deletedBy: {
+                        account_id : res.locals.user.id,
+                        deletedAt: new Date()
+                    }
                 });
             req.flash('success', `Đã xóa thành công ${ids.length} sản phẩm`);
             break;
@@ -131,6 +141,9 @@ module.exports.TrashChangeMulti = async (req, res) => {
 
 // [DELETE] /admin/products/delete/:id
 module.exports.DeleteItem = async (req, res) => {
+    if(!res.locals.role.permission.includes("products-delete")) {
+        return;
+    }
     const id = req.params.id;
     await Product.updateOne({_id: id},{
         deleted: true,
@@ -183,6 +196,9 @@ module.exports.Trash = async(req, res) => {
 
 // [DELETE] /admin/products/delete-permanently/:id
 module.exports.Deletepermanetly = async (req, res) => {
+    if(!res.locals.role.permission.includes("products-trash-delete")) {
+        return;
+    }
     const id = req.params.id;
     await Product.deleteOne({_id: id});
     req.flash('success', 'Xóa sản phẩm thành công');
@@ -191,6 +207,9 @@ module.exports.Deletepermanetly = async (req, res) => {
 
 // [DELETE] /admin/products/restore/:id
 module.exports.RestoreItem = async (req, res) => {
+    if(!res.locals.role.permission.includes("products-trash-create")) {
+        return;
+    }
     const id = req.params.id;
     await Product.updateOne({_id: id},{
         deleted: false, 
@@ -214,6 +233,9 @@ module.exports.create = async (req, res) => {
 
 // [POST] /admin/products/create
 module.exports.createPost = async (req, res) => {
+    if(!res.locals.role.permission.includes("products-create")) {
+        return;
+    }
     try {
         req.body.price= parseInt(req.body.price);
         req.body.discountPercentage= parseInt(req.body.discountPercentage);
@@ -262,6 +284,9 @@ module.exports.edit = async (req, res) => {
 
 // [PATCH] /admin/products/edit/:id
 module.exports.editPatch = async (req, res) => {
+    if(!res.locals.role.permission.includes("products-edit")) {
+        return;
+    }
     const id = req.params.id;
     req.body.price= parseInt(req.body.price);
     req.body.discountPercentage= parseInt(req.body.discountPercentage);

@@ -22,6 +22,9 @@ module.exports.create = (req, res) => {
 
 // [POST] /admin/roles/create
 module.exports.createPost = async (req, res) => {
+    if(!res.locals.role.permission.includes("roles-create")) {
+        return;
+    }
     try {
         const record = new Role(req.body);
         await record.save();
@@ -36,6 +39,9 @@ module.exports.createPost = async (req, res) => {
 
 // [DELETE] /admin/roles/delete/:id
 module.exports.delete = async (req, res) => {
+    if(!res.locals.role.permission.includes("roles-delete")) {
+        return;
+    }
     const id = req.params.id;
     await Role.updateOne({_id : id}, {deleted : true});
     req.flash('success',"Xóa Nhóm Quyền Thành Công");
@@ -64,6 +70,9 @@ module.exports.edit = async (req, res) => {
 
 // [PATCH] /admin/roles/edit/:id
 module.exports.editPatch = async (req, res) => {
+    if(!res.locals.role.permission.includes("roles-edit")) {
+        return;
+    }
     try {
         const id = req.params.id;
         await Role.updateOne({_id : id}, req.body);
@@ -103,6 +112,9 @@ module.exports.permission = async (req, res) => {
 
 // [Patch] /admin/roles/permission
 module.exports.permissionPatch= async (req, res) => {
+    if(!res.locals.role.permission.includes("roles-permissions")) {
+        return;
+    }
     const permission = JSON.parse(req.body.permission);
     for (const item of permission) {
         await Role.updateOne({_id : item.id}, {permission: item.permission});

@@ -50,6 +50,9 @@ module.exports.create = async (req,res) => {
 
 // [POST] /admin/product-category/create
 module.exports.createPost = async (req,res) => {
+    if(!res.locals.role.permission.includes("products-category-create")) {
+        return;
+    }
     try {
         if(req.body.posittion == "") {
             const count = await ProductCategory.countDocuments();
@@ -69,6 +72,9 @@ module.exports.createPost = async (req,res) => {
 
 // [DELETE] /admin/product-category/delete/:id
 module.exports.deleteItem = async (req,res) => {
+    if(!res.locals.role.permission.includes("products-category-delete")) {
+        return;
+    }
     const id = req.params.id;
     await ProductCategory.updateOne({_id : id}, {deleted : true});
     req.flash("success", "Xóa Danh Mục Thành Công");
@@ -78,6 +84,9 @@ module.exports.deleteItem = async (req,res) => {
 
 // [PATCH] /admin/product-category/change-status/:status/:id
 module.exports.ChangeStatus = async (req,res) => {
+    if(!res.locals.role.permission.includes("products-category-changeStatus")) {
+        return;
+    }
     const id = req.params.id;
     const status = req.params.status;
     await ProductCategory.updateOne({_id : id}, {status : status});
@@ -87,6 +96,9 @@ module.exports.ChangeStatus = async (req,res) => {
 
 // [PATCH] /admin/product-category/change-multi
 module.exports.ChangeMulti = async (req, res) => {
+    if(!res.locals.role.permission.includes("products-category-edit")) {
+        return;
+    }
     const type = req.body.type;
     const ids = req.body.ids.split(", ");
     switch (type) {
@@ -142,6 +154,9 @@ module.exports.edit = async (req,res) => {
 
 // [PATCH] /admin/product-category/edit/:id
 module.exports.editPatch = async (req,res) => {
+    if(!res.locals.role.permission.includes("products-category-edit")) {
+        return;
+    }
     try {
         const id = req.params.id;
         req.body.posittion = parseInt(req.body.posittion);
