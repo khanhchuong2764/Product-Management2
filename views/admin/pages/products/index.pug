@@ -43,6 +43,7 @@ block main
                                     th Vị trí
                                     th Trạng Thái
                                     th Người Tạo
+                                    th Người Sửa
                                     th Hành Động
                             tbody 
                                 each item,index in product
@@ -68,9 +69,15 @@ block main
                                                 else
                                                     span( class="badge badge-danger") Dừng Hoạt Động
                                         td  
-                                            p #{item.AccountFullName}
+                                            p   #{item.AccountFullName}
                                             p 
                                                 +formatDate(item.createdBy.createdAt)
+                                        td  
+                                            - const updatedBy = item.updatedBy[item.updatedBy.length - 1];
+                                            if (updatedBy)
+                                                p   #{updatedBy.AccountFullName}
+                                                p  
+                                                    +formatDateTime(updatedBy.updatedAt)
                                         td  
                                             a(class="btn btn-secondary btn-sm btn-detail" href=`${PrefixAdmin}/products/detail/${item.id}` ) Chi Tiết
                                             if (role.permission.includes("products-edit"))

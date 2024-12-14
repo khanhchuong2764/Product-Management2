@@ -43,12 +43,20 @@ module.exports.index = async(req, res) => {
     .sort(sort)
     .limit(ObjectPagination.limitItem)
     .skip(ObjectPagination.skip);
-    
     for (const item  of product) {
+        // Lấy thông tin người tạo
         const user = await Account.findOne({_id : item.createdBy.account_id}).select("fullName");
         if(user) {
             item.AccountFullName = user.fullName;
         }
+        // End Lấy thông tin người tạo
+        // Lấy thông tin người sửa gần nhất
+        const updateBy = item.updatedBy[item.updatedBy.length - 1];
+        if(updateBy) {
+            const updateByAccount  = await Account.findOne({_id : updateBy.account_id});
+            updateBy.AccountFullName = updateByAccount.fullName;
+        }
+        // End Lấy thông tin người sửa gần nhất
     }
     res.render("admin/pages/products/index",{
         titlePage:"Danh Sách Sản Phẩm",
@@ -287,6 +295,10 @@ module.exports.editPatch = async (req, res) => {
     if(!res.locals.role.permission.includes("products-edit")) {
         return;
     }
+    const UpdatedBy = {
+        account_id : res.locals.user.id,
+        updatedAt: new Date()
+    };
     const id = req.params.id;
     req.body.price= parseInt(req.body.price);
     req.body.discountPercentage= parseInt(req.body.discountPercentage);
@@ -296,7 +308,7 @@ module.exports.editPatch = async (req, res) => {
         req.body.thumbnail = `/uploads/${req.file.filename}`;
     }
     try {
-        await Product.updateOne({_id : id}, req.body);
+        await Product.updateOne({_id : id}, { ...req.body , $push:{updatedBy : UpdatedBy}});
         req.flash('success', 'Cập nhật sản phẩm thành công');
     } catch (error) {
         req.flash('error', 'Cập nhật sản phẩm thất bại');
