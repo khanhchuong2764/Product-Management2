@@ -1,4 +1,9 @@
 extends ../../layouts/default.pug
-
+include ../../mixin/box-head.pug
+include ../../mixin/products-layout.pug
 block main
-  h2 Trang Chu
+  .container.my-3
+        .row
+            .col-12
+                +box-head("Sản phẩm nổi bậc")
+        +products-gird(ProductFeature)

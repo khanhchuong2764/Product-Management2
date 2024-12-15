@@ -47,6 +47,7 @@
 }
 .inner-images {
     border-radius: 10px;
+    position: relative;
 }
 .inner-images img {
     width: 100%;
@@ -66,6 +67,17 @@
     background-color: red;
     color: white;
     border-radius: 10px;
+}
+.product-item .inner-featured {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: rgb(223, 94, 94);
+    color: white;
+    padding: 3px 6px;
+    font-weight: 600;
+    font-size: 14px;
+    border-radius: 8px;
 }
 .inner-price-new {
     color: rgb(5, 244, 13);

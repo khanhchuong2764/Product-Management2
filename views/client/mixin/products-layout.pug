@@ -1,0 +1,7 @@
+include product-item.pug
+
+mixin products-gird(products)
+    .row
+        .product-list
+            each item in products
+                +product-item(item)

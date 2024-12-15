@@ -1,0 +1,13 @@
+mixin product-item(item)
+    .product-item
+        .inner-images
+            img(src=item.thumbnail, alt=item.title)
+            if(item.featured == "1")
+                .inner-featured Nổi Bật
+        .inner-content 
+            h3.inner-title 
+                a(href=`/product/${item.slug}`) #{item.title}
+            .price
+                .inner-price-new #{item.priceNew}$
+                .inner-price-old #{item.price}$
+                .discount #{item.discountPercentage}%

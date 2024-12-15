@@ -1,20 +1,9 @@
 extends ../../layouts/default.pug
 include ../../mixin/box-head.pug
+include ../../mixin/products-layout.pug
 block main
     .container.my-3
         .row
             .col-12
                 +box-head("Danh Sách Sản Phẩm")
-        .row
-            .product-list
-                each item in product
-                    .product-item
-                        .inner-images
-                            img(src=item.thumbnail, alt=item.title)
-                        .inner-content 
-                            h3.inner-title 
-                                a(href=`/product/${item.slug}`) #{item.title}
-                            .price
-                                .inner-price-new #{item.priceNew}$
-                                .inner-price-old #{item.price}$
-                                .discount #{item.discountPercentage}%
+        +products-gird(product)
