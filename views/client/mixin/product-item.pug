@@ -6,7 +6,7 @@ mixin product-item(item)
                 .inner-featured Nổi Bật
         .inner-content 
             h3.inner-title 
-                a(href=`/product/${item.slug}`) #{item.title}
+                a(href=`/product/detail/${item.slug}`) #{item.title}
             .price
                 .inner-price-new #{item.priceNew}$
                 .inner-price-old #{item.price}$

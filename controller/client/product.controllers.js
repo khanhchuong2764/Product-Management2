@@ -15,11 +15,11 @@ module.exports.index = async (req, res) => {
     })
 }
 
-// [GET] /product/:slug
+// [GET] /product/:slugProduct
 module.exports.detail = async (req, res) => {
   try {
     const find = {
-        slug : req.params.slug,
+        slug : req.params.slugProduct,
         deleted : false,
         status : "active"
     }
