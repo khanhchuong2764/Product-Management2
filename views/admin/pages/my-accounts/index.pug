@@ -1,0 +1,31 @@
+extends ../../layouts/default.pug
+
+block main  
+    h2 Thông Tin Tài Khoản
+
+    if (user.avatar) 
+        div(class="mb-4")
+            img(src=user.avatar, alt="" style="width:200px")
+
+    if (user.fullName) 
+        div(class="mb-4") Họ tên: #{user.fullName}
+
+    if (user.email) 
+        div(class="mb-4") Email: #{user.email}
+
+    if (user.phone) 
+        div(class="mb-4") Số Điện Thoại: #{user.phone}
+
+    if (role.title) 
+        div(class="mb-4") Phân Quyền: #{role.title}
+
+    if (user.status) 
+        div(class="mb-4")
+            span(class="status-detail") Trạng Thái:
+            if (user.status == "active")
+                span(class="badge badge-success") Hoạt Động
+            else 
+                span(class="badge badge-danger") Dừng Hoạt Động
+
+
+    a(class="btn btn-warning btn-sm" href=`${PrefixAdmin}/my-accounts/edit` ) Chỉnh Sửa

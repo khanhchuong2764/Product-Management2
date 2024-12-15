@@ -28,7 +28,7 @@ Router.post('/create',upload.single('thumbnail'),UploadsCloud.upload,ProductVali
 
 Router.get('/edit/:id', ProductController.edit);
 
-Router.patch('/edit/:id',upload.single('thumbnail'),ProductValidate.createPost,  ProductController.editPatch);
+Router.patch('/edit/:id',upload.single('thumbnail'),UploadsCloud.upload,ProductValidate.createPost,  ProductController.editPatch);
 
 Router.get('/detail/:id', ProductController.detail);
 

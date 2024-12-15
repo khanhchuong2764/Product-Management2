@@ -17,7 +17,7 @@ block main
         div(class="mb-4") Số Điện Thoại: #{record.phone}
 
     if (record.roleTitle) 
-        div(class="mb-4") Quyền: #{record.roleTitle}
+        div(class="mb-4") Phân Quyền: #{record.roleTitle}
 
     if (record.status) 
         div(class="mb-4")
@@ -26,7 +26,5 @@ block main
                 span(class="badge badge-success") Hoạt Động
             else 
                 span(class="badge badge-danger") Dừng Hoạt Động
-
-
-    if (role.permission.includes("accounts-edit"))
-        a(class="btn btn-warning btn-sm" href=`${PrefixAdmin}/accounts/edit/${record.id}` ) Chỉnh Sửa
+    
+    a(class="btn btn-warning btn-sm" href=`${PrefixAdmin}/my-accounts/edit` ) Chỉnh Sửa

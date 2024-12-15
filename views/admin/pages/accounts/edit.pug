@@ -4,7 +4,7 @@ block main
     if (role.permission.includes("accounts-edit"))
         +alerterror(5000)
         +alertsuccess(5000)
-        h1(class="mb-4") Thêm Mới Tài Khoản
+        h1(class="mb-4") Chỉnh Sửa Tài Khoản
         form(
             action=`${PrefixAdmin}/accounts/edit/${data.id}?_method=PATCH` 
             method="POST",
@@ -40,5 +40,5 @@ block main
                 input(type="radio" id="statusInactive" name="status" class="form-check-input" checked=(data.status=="inactive" ? true : false) value="inactive") 
                 label(for="statusInactive" class="form-check-lable") Dừng Hoạt Động  
             div(class="form-group")
-                button(type="submit" class="btn btn-primary") Tạo Mới 
+                button(type="submit" class="btn btn-primary") Cập Nhật
 

@@ -327,9 +327,7 @@ module.exports.editPatch = async (req, res) => {
     req.body.discountPercentage= parseInt(req.body.discountPercentage);
     req.body.stock= parseInt(req.body.stock);
     req.body.posittion= parseInt(req.body.posittion);
-    if(req.file) {
-        req.body.thumbnail = `/uploads/${req.file.filename}`;
-    }
+    console.log(req.body);
     try {
         await Product.updateOne({_id : id}, { ...req.body , $push:{updatedBy : UpdatedBy}});
         req.flash('success', 'Cập nhật sản phẩm thành công');

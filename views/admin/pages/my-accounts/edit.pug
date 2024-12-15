@@ -1,0 +1,31 @@
+extends ../../layouts/default.pug
+include ../../mixins/alert.pug
+block main
+    +alerterror(5000)
+    +alertsuccess(5000)
+    h1(class="mb-4") Cập Nhật Tài Khoản
+    form(
+        action=`${PrefixAdmin}/my-accounts/edit?_method=PATCH` 
+        method="POST",
+        enctype="multipart/form-data" 
+    ) 
+        div(class="form-group")
+            label(for="fullName") Họ Tên *
+            input(type="text" id="fullName" name="fullName" class="form-control" required value=user.fullName)
+        div(class="form-group")
+            label(for="email") Email *
+            input(type="email" id="email" name="email" class="form-control" required value=user.email)
+        div(class="form-group")
+            label(for="password") Mật Khẩu *
+            input(type="password" id="password" name="password" class="form-control")
+        div(class="form-group")
+            label(for="phone") Số Điện Thoại
+            input(type="text" id="phone" name="phone" class="form-control" value=user.phone)
+        div(class="form-group" uploads-image)
+            label(for="avatar") Ảnh
+            input(type="file" id="avatar" name="avatar" class="form-control-file" accept="image/*" uploads-image-input) 
+            img(src=user.avatar, alt="" uploads-image-previews class="imguploads")
+            button(class="btn btn-secondary btn-sm ml-3 btn-delete-uploads button-hidden" type="button" button-delete-uploads ) Xóa  
+        div(class="form-group")
+            button(type="submit" class="btn btn-primary") Cập Nhật
+

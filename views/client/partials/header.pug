@@ -1,3 +1,4 @@
+include ../mixin/sub-menu.pug
 header.header
     .container
         .row
@@ -10,5 +11,8 @@ header.header
                     ul 
                         li
                             a(href="/") Trang Chủ
-                        li 
-                            a(href="/product") Sản Phẩm 
+                        li(class="sub-menu")
+                            -const path = "/product";
+                            a(href="/product") Sản Phẩm
+                            +sub-menu(categoryproduct,path)
+                    

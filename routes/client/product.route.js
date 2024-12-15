@@ -4,6 +4,6 @@ const Router = express.Router();
 
 Router.get('/',ProductController.index)
 
-Router.get('/:slug',ProductController.detail)
+// Router.get('/:slug',ProductController.detail)
 
 module.exports = Router;
