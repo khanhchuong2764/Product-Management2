@@ -1,0 +1,5 @@
+mixin select-account-permission(records)
+    select(class="form-control" select-permission)
+        option(class="text-center" value="") Phân Quyền
+        each item in records
+            option(class="text-center" permission=item.id value=item.id) #{item.title}

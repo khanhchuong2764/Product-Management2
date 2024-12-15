@@ -6,6 +6,7 @@ include ../../mixins/form-change-multi.pug
 include ../../mixins/alert.pug
 include ../../mixins/sort.pug
 include ../../mixins/format-time.pug
+include ../../mixins/select-tree.pug
 block main
     if (role.permission.includes("products-view"))
         h2 Danh Sách Sản Phẩm
@@ -15,8 +16,13 @@ block main
             .card-header Bộ lọc và Tìm kiếm
             .card-body     
                 .row 
-                    .col-6
+                    .col-4
                         +fillter-status(FillterStatus)
+                    .col-4
+                        select(name="product_category_id" class="form-control" id="product_category_id" selecte-category-products)
+                            option(value="") Danh Mục
+                            if(NewCategoryProduct)
+                                +select-tree(NewCategoryProduct)
                     .col-3 
                         +search(keyword)
         .card.mb-3
@@ -71,7 +77,7 @@ block main
                                         td  
                                             p   #{item.AccountFullName}
                                             p 
-                                                +formatDate(item.createdBy.createdAt)
+                                                +formatDateTime(item.createdBy.createdAt)
                                         td  
                                             - const updatedBy = item.updatedBy[item.updatedBy.length - 1];
                                             if (updatedBy)
@@ -87,3 +93,4 @@ block main
         +pagination(pagination) 
         form(action="", method="POST" data-path=`${PrefixAdmin}/products/change-status` id="form-change-status" class="d-none")    
         form(action="", method="POST" data-path=`${PrefixAdmin}/products/delete` id="form-delete-item")    
+        script(src="/admin/js/products.js") 

@@ -32,13 +32,33 @@ module.exports.index = async(req, res) => {
         CountProduct,
         req.query
     );
+    //End Pagination
+    // Sort
     const sort = {};
     if (req.query.sortkey && req.query.sortValue) {
         sort[req.query.sortkey] = req.query.sortValue;
     }else { 
         sort.posittion = "desc";
     }
-    //End Pagination
+    // End Sort
+    // Fillter Product-Category
+    const getSubCategory = async (parentId) => {
+        const subs = await ProductCategory.find({parent_id : parentId,deleted:false});
+        let allsubs = [...subs];
+        
+        for (const item of allsubs) {
+            const child = await getSubCategory(item.id);
+            allsubs = allsubs.concat(child);
+        }
+        return allsubs;
+    }   
+    if (req.query.categoryId) {
+        const suBmenu = await getSubCategory(req.query.categoryId);
+        const NewCategory = suBmenu.map(item => item.id);
+        find.product_category_id = {$in : [req.query.categoryId, ...NewCategory]};
+    }
+
+    // End Fillter Product-Category
     const product = await Product.find(find)
     .sort(sort)
     .limit(ObjectPagination.limitItem)
@@ -58,12 +78,15 @@ module.exports.index = async(req, res) => {
         }
         // End Lấy thông tin người sửa gần nhất
     }
+    const CateogryProduct = await ProductCategory.find({deleted:false});
+    const NewCategoryProduct = CreateTreeHelper.tree(CateogryProduct);
     res.render("admin/pages/products/index",{
         titlePage:"Danh Sách Sản Phẩm",
         product:product,
         FillterStatus:FillterStatus,
         keyword:ObjectSearch.keyword,
-        pagination:ObjectPagination
+        pagination:ObjectPagination,
+        NewCategoryProduct:NewCategoryProduct
     })  
 }
 // [PATCH] /admin/products/change-status/:status/:id

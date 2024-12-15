@@ -1,14 +1,33 @@
 const Role = require("../../model/roles.model");
+const SearchHelper = require("../../helpers/search");
 const SystemConfig = require("../../config/system");
+const PaginationHelper = require("../../helpers/pagination");
 // [GET] /admin/roles
 module.exports.index = async (req, res) => {
     const find = {
         deleted :false
     }
-    const record = await Role.find(find);
+    // Search
+    const ObjectSearch=SearchHelper(req.query);
+    if (ObjectSearch.regex) {
+        find.title = ObjectSearch.regex;
+    }
+    // End Search 
+    // Pagination
+    const CountRole = await Role.countDocuments(find);
+    const ObjectPagination =PaginationHelper({
+        limitItem: 6,
+        currentPage: 1
+    },
+        CountRole,
+        req.query
+    );
+    const record = await Role.find(find).limit(ObjectPagination.limitItem).skip(ObjectPagination.skip);
     res.render("admin/pages/roles/index",{
         titlePage:"Nhóm Quyền",
-        record : record
+        record : record,
+        keyword:ObjectSearch.keyword,
+        pagination:ObjectPagination
     })  
 }
 

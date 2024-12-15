@@ -1,30 +1,25 @@
 extends ../../layouts/default.pug
 include ../../mixins/alert.pug
+include ../../mixins/fillter-status.pug
+include ../../mixins/search.pug
+include ../../mixins/pagination.pug
+include ../../mixins/select-multi.pug
 block main
     if (role.permission.includes("accounts-view"))
-        h2 Danh Sách Sản Phẩm
+        h2 Danh Sách Tài Khoản
         +alertsuccess(5000)
         +alerterror(5000)
-        //- .card.mb-3
-        //-     .card-header Bộ lọc và Tìm kiếm
-        //-     .card-body     
-        //-         .row 
-        //-             .col-6
-        //-                 +fillter-status(FillterStatus)
-        //-             .col-3 
-        //-                 //- select(name="status" class="form-control")
-        //-                 //-     each item in FillterStatus
-        //-                 //-         option(value=item.status selected=item.class=="active" ? true : false) --#{item.name}--
-        //-                 +search(keyword)
         .card.mb-3
             .card-header Danh Sách Tài Khoản
                 .card-body
                     .row 
                         .col-4
-                        //-     +form-change-multi(`${PrefixAdmin}/products/change-multi?_method=PATCH`)
-                        .col-5
-                        //-     +sort()
+                            +fillter-status(FillterStatus)
                         .col-3
+                            +search(keyword)
+                        .col-3
+                            +select-account-permission(Roles)
+                        .col-2
                             if (role.permission.includes("accounts-create"))
                                 a(href=`${PrefixAdmin}/accounts/create` class="btn btn-outline-success") +Thêm Mới
                     table(class="table table-hover" checkbox-multi)
@@ -48,7 +43,10 @@ block main
                                         td
                                             img(src=item.avatar, width="120px" height="auto" alt=item.fullName)
                                         td #{item.fullName}
-                                        td #{item.role.title}
+                                        if (item.role)
+                                            td #{item.role.title}
+                                        else 
+                                            td
                                         td #{item.email}
                                         td  
                                             if (role.permission.includes("accounts-edit"))
@@ -62,8 +60,12 @@ block main
                                                 else
                                                     span( class="badge badge-danger") Dừng Hoạt Động
                                         td  
-                                            a(class="btn btn-secondary btn-sm btn-detail" href=`${PrefixAdmin}/products/detail/${item.id}` ) Chi Tiết
+                                            a(class="btn btn-secondary btn-sm btn-detail" href=`${PrefixAdmin}/accounts/detail/${item.id}` ) Chi Tiết
                                             if (role.permission.includes("accounts-edit"))
                                                 a(class="btn btn-warning btn-sm" href=`${PrefixAdmin}/accounts/edit/${item.id}` ) Sửa
                                             if (role.permission.includes("accounts-delete"))
                                                 button(class="btn btn-danger btn-sm ml-1" data-id=item.id btn-delete-item ) Xóa
+        form(action="", method="POST" data-path=`${PrefixAdmin}/accounts/delete` id="form-delete-item")
+        form(action="", method="POST" data-path=`${PrefixAdmin}/accounts/change-status` id="form-change-status" class="d-none") 
+        +pagination(pagination) 
+        script(src="/admin/js/accounts.js") 

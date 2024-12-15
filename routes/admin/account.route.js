@@ -15,4 +15,10 @@ Router.post('/create',upload.single('avatar'),UploadsCloud.upload,AccountValidat
 Router.get('/edit/:id', controller.edit);
 
 Router.patch('/edit/:id',upload.single('avatar'),UploadsCloud.upload,AccountValidate.editPatch,controller.editPatch);
+
+Router.delete('/delete/:id', controller.delete);
+
+Router.patch('/change-status/:status/:id', controller.ChangeStatus);
+
+Router.get('/detail/:id', controller.detail);
 module.exports = Router;

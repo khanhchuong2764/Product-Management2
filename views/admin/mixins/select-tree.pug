@@ -4,3 +4,14 @@ mixin select-tree(records ,level = 0,parent_id= "")
         option(value=item.id selected=(item.id == parent_id ? true : false)) #{preFix} #{item.title}
             if item.childrent && item.childrent.length > 0 
                 +select-tree(item.childrent,level + 1,parent_id)
+
+
+
+
+
+mixin select-tree-fillter(records ,level = 0,parent_id= "")
+    each item in records 
+        - const preFix = Array(level + 1).join(" --");
+        option(value=item.id selected=(item.id == parent_id ? true : false)) #{preFix} #{item.title}
+            if item.childrent && item.childrent.length > 0 
+                +select-tree-fillter(item.childrent,level + 1,parent_id)
