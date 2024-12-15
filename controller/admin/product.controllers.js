@@ -6,6 +6,7 @@ const SearchHelper = require("../../helpers/search");
 const PaginationHelper = require("../../helpers/pagination");
 const SystemConfig = require("../../config/system");
 const CreateTreeHelper = require("../../helpers/createHelper");
+const ProductCategoryHelper = require("../../helpers/product-category");
 // [GET] /admin/products
 module.exports.index = async(req, res) => {
     // Bộ Lọc
@@ -42,18 +43,8 @@ module.exports.index = async(req, res) => {
     }
     // End Sort
     // Fillter Product-Category
-    const getSubCategory = async (parentId) => {
-        const subs = await ProductCategory.find({parent_id : parentId,deleted:false});
-        let allsubs = [...subs];
-        
-        for (const item of allsubs) {
-            const child = await getSubCategory(item.id);
-            allsubs = allsubs.concat(child);
-        }
-        return allsubs;
-    }   
     if (req.query.categoryId) {
-        const suBmenu = await getSubCategory(req.query.categoryId);
+        const suBmenu = await ProductCategoryHelper.getSub(req.query.categoryId);
         const NewCategory = suBmenu.map(item => item.id);
         find.product_category_id = {$in : [req.query.categoryId, ...NewCategory]};
     }
