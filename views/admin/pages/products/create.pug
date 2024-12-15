@@ -20,6 +20,12 @@ block main
                     option(value="" selected) --Chọn Danh Mục--
                     if(records)
                         +select-tree(records)
+            div(class="form-group form-check form-check-inline")
+                input(type="radio" id="featured1" name="featured"  class="form-check-input" value="1")
+                label(for="" class="form-check-lable") Nổi bậc 
+            div(class="form-group form-check form-check-inline")
+                input(type="radio" id="featured0" name="featured" class="form-check-input" checked value="0") 
+                label(for="" class="form-check-lable") Không 
             div(class="form-group")
                 label(for="desc") Mô Tả
                 textarea(name="description" id="desc" class="form-control textarea-mce" rows ="5")

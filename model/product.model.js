@@ -13,6 +13,7 @@ const Productschema = new mongoose.Schema(
         description:String,
         status:String,
         stock:Number,
+        featured : String, 
         createdBy : {
             account_id : String,
             createdAt: {
