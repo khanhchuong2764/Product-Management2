@@ -98,9 +98,6 @@
     bottom: 0;
 }
 
-
-
-/* sub-menu */
 .sub-menu {
     position: relative;
     z-index: 999;
@@ -139,5 +136,4 @@
 .sub-menu ul li:hover > ul {
     display: block;
 }
-/* End */
 
