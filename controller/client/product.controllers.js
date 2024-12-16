@@ -15,7 +15,7 @@ module.exports.index = async (req, res) => {
     })
 }
 
-// [GET] /product/:slugProduct
+// [GET] /product//detail/:slugProduct
 module.exports.detail = async (req, res) => {
   try {
     const find = {
@@ -24,6 +24,11 @@ module.exports.detail = async (req, res) => {
         status : "active"
     }
     const record = await Product.findOne(find);
+    record.priceNew = ProductHelper.GetPriceNewItem(record);
+    if(record.product_category_id){
+      const category = await ProductCategory.findOne({_id : record.product_category_id, deleted :false,status :"active"});
+      record.category = category;
+    }
     res.render("client/pages/products/detail",{
         titlePage:record.title,
         record:record

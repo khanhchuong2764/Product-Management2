@@ -1,28 +1,44 @@
 extends ../../layouts/default.pug
-
+include ../../mixin/box-head.pug
 block main  
+    .product-detail
+        .container.my-5
+            .row
+                .col-6
+                    .inner-thumb
+                        img(src=record.thumbnail, alt=record.title)
+                .col-6
+                    h1(class="inner-title") #{record.title}
 
-    .container.my-3
-        .row
-            .col-12
-                if (record.title) 
-                    h1(class="mb-4") #{record.title}
+                    if (record.category) 
+                        div(class="inner-category")
+                            span  Danh Mục :
+                            a(href=`/product/${record.category.slug}`) #{record.category.title}
+                    if (record.priceNew)
+                        div(class="inner-price-new") <span> #{record.priceNew}$ </span>
 
-                if (record.price) 
-                    div(class="mb-4") Giá: <b>#{record.price}$</b>
+                    if (record.price)
+                        div(class="inner-price-old") <span> #{record.price}$ </span>
 
-                if (record.discountPercentage) 
-                    div(class="mb-4") Giảm Giá: <b>#{record.discountPercentage}%</b>
-                
-                
-                if (record.stock) 
-                    div(class="mb-4") Số Lượng: <b>#{record.stock}</b>
-                
-                if (record.thumbnail) 
-                    div(class="mb-4")
-                        img(src=record.thumbnail, alt="" style="width:200px")
-                
-                
-                if (record.description) 
-                    div(class="mb-4") Mô Tả: !{record.description}
+                    if (record.discountPercentage) 
+                        div(class="inner-percent-percent") Giảm tới: <span> #{record.discountPercentage}% </span>
+                    
+                    
+                    if (record.stock) 
+                        div(class="inner-stock") Còn Lại: <span> #{record.stock} </span> sản phẩm
+                    
+                    form(action=`/cart/add/${record.id}`, method="post") 
+                        input(type="number" class="form-control mb-2" name=quantity min=1 value="1" max=record.stock )
+                        button(type="submit" class="btn btn-success btn-block") Thêm Vào Giỏ Hàng
+        
     
+        
+        hr
+
+        
+        .container.my-5
+            .row
+                .col-12
+                    +box-head("Mô tả sản phẩm")
+                    .inner-desc !{record.description}
+        

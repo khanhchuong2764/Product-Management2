@@ -6,9 +6,15 @@ header.header
                 .inner-logo
                     a(href="/")
                         img(src="/client/images/logo.jpg", alt="") 
-            .col-9 
+            .col-4
+                form(action="/search")
+                    div(class="form-group d-flex mb-0")
+                        input(type="text" placeholder="Nhập Từ Khóa" name="keyword" class="form-control" width="150px")
+                        button(class="btn btn-primary" type="submit") Tìm
+                     
+            .col-4 
                 .inner-menu
-                    ul 
+                    ul   
                         li
                             a(href="/") Trang Chủ
                         li(class="sub-menu")

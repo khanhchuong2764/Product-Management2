@@ -1,0 +1,12 @@
+extends ../../layouts/default.pug
+include ../../mixin/box-head.pug
+include ../../mixin/products-layout.pug
+block main
+    .container.my-3
+        .row
+            .col-12
+                +box-head(titlePage)
+        if (product.length > 0)
+            +products-gird(product)
+        else 
+            div Không tìm thấy sản phẩm nào
