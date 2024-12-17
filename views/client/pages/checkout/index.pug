@@ -1,0 +1,53 @@
+extends ../../layouts/default.pug
+include ../../mixin/box-head.pug
+block main
+  .container.my-3
+        .row
+            .col-12
+                +box-head("Đặt Hàng")
+        
+
+        .row 
+          .col-12    
+              if (carts.length > 0) 
+                  table(class="table table-bordered" checkboxmulti)
+                      thead
+                          th STT
+                          th Ảnh
+                          th Tên
+                          th Giá
+                          th Số Lượng
+                          th Tông Tiền
+                      tbody
+                          each item,index in carts
+                              tr  
+                                  td #{index + 1}
+                                  td 
+                                      img(src=item.productInfor.thumbnail, alt="" width="80px")
+                                  td 
+                                      span #{item.productInfor.title}
+                                  td #{item.productInfor.priceNew}$
+                                  td #{item.quantity}
+                                  td #{item.totalPrice}$
+                  h3(class="text-right") Tổng Đơn Hàng: #{carts.totalPriceProductAll}$
+                  
+              else 
+                  div Không có sản phẩm nào trong giỏ hàng
+        if(carts.length > 0)
+          .row 
+            .col-12
+              .card.p-4.my-4
+                form(action="/checkout/order", method="post")
+                  div(class="form-group")
+                    label(for="fullName") Họ Tên 
+                    input(type="text" id="fullName" name="fullName" class="form-control" required)
+                  div(class="form-group")
+                      label(for="phone") Số điện thoại 
+                      input(type="number" id="phone" name="phone" class="form-control" required) 
+                  div(class="form-group")
+                    label(for="address") Địa Chỉ
+                    input(type="text" id="address" name="address" class="form-control" required)
+                    input(type="text" id="address" name="productCarts" value=carts class="form-control d-none" required)
+                  div(class="form-group" datacarrt=carts)
+                    button(type="submit" class="btn btn-primary ") Đặt Hàng
+        //- script(src="/client/js/checkout.js") 
