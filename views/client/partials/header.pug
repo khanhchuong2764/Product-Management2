@@ -9,7 +9,7 @@ header.header
             .col-4
                 form(action="/search")
                     div(class="form-group d-flex mb-0")
-                        input(type="text" placeholder="Nhập Từ Khóa" name="keyword" class="form-control" width="150px")
+                        input(type="text" placeholder="Nhập Từ Khóa" name="keyword" class="form-control" value=keyword width="150px")
                         button(class="btn btn-primary" type="submit") Tìm
                      
             .col-4 
@@ -21,4 +21,5 @@ header.header
                             -const path = "/product";
                             a(href="/product") Sản Phẩm
                             +sub-menu(categoryproduct,path)
-                    
+                        li
+                            a(href="/cart") Giỏ hàng (#{cart ? cart.totalQuantity : 0})

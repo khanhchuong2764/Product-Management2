@@ -137,3 +137,26 @@
     display: block;
 }
 
+
+
+
+
+[show-alert] {
+    position: fixed;
+    top: 100px;
+    right: 15px;
+    z-index: 999;
+}
+[show-alert].alert-hidden {
+    display: none;
+}
+ .closedalert {
+    font-size: 15px;
+    margin-left: 10px;
+    width: 25px;
+    display: inline-block;
+    padding: 10px;
+}
+.closedalert:hover {
+    cursor: pointer;
+}

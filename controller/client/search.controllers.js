@@ -11,6 +11,7 @@ module.exports.index = async (req, res) => {
     const product = ProductHelper.GetPriceNew(products);
     res.render("client/pages/search/index",{
         titlePage:"Kết quả tìm kiếm",
-        product:product
+        product:product,
+        keyword: req.query.keyword
     })
 }

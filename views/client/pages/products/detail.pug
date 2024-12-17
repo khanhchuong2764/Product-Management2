@@ -28,7 +28,7 @@ block main
                         div(class="inner-stock") Còn Lại: <span> #{record.stock} </span> sản phẩm
                     
                     form(action=`/cart/add/${record.id}`, method="post") 
-                        input(type="number" class="form-control mb-2" name=quantity min=1 value="1" max=record.stock )
+                        input(type="number" class="form-control mb-2" name="quantity" min=1 value="1" max=record.stock )
                         button(type="submit" class="btn btn-success btn-block") Thêm Vào Giỏ Hàng
         
     
