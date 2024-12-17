@@ -32,7 +32,7 @@ module.exports.index = async (req, res) => {
 // [POST] /checkout/order
 module.exports.order = async (req, res) => {
     const cartId = req.cookies.cartId;
-    const UserInfor = {
+    const UserInfo = {
         fullName : req.body.fullName,
         phone : req.body.phone,
         address : req.body.address
@@ -50,7 +50,7 @@ module.exports.order = async (req, res) => {
     }
     const ObjectOrder = {
         cartId : cartId,
-        UserInfor :UserInfor,
+        userInfor :UserInfo,
         products : products
     };
     const productId = CartProduct.map(item => item.product_id);
@@ -68,7 +68,18 @@ module.exports.order = async (req, res) => {
 // [GET] /checkout/success/:orderId
 module.exports.success = async (req, res) => {
     const orderId = req.params.orderId;
+    let totalPriceProductAll = 0;
+    const order = await Order.findOne({_id : orderId});
+    for (const item of order.products) {
+        const productInfor = await Product.findOne({_id : item.product_id}).select("title thumbnail");
+        item.priceNew = ProductHelper.GetPriceNewItem(item);
+        item.productInfor = productInfor;
+        item.totalPrice = item.priceNew * item.quantity;
+        totalPriceProductAll+=item.totalPrice;
+    }
+    order.totalPriceProductAll = totalPriceProductAll;
     res.render("client/pages/checkout/success",{
         titlePage:"Đặt Hàng Thành Công",
+        order: order 
     })
 }

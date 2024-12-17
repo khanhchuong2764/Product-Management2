@@ -4,9 +4,9 @@ const Orderchema = new mongoose.Schema(
         // user_id : String,
         cartId : String,
         userInfor: {
-            fullName: String,
-            phone: String,
-            address : String
+            fullName:String,
+            phone:String,
+            address:String
         },
         products: [
             {
