@@ -17,3 +17,18 @@ if (SelecteCategory){
         optionSelected.selected = true;
     }
 }
+
+const selectLimitItem = document.querySelector("#limitItem");
+if(selectLimitItem) {
+    let url = new URL(window.location.href);
+    selectLimitItem.addEventListener("change",() => {
+        const limitItem = selectLimitItem.value;
+        url.searchParams.set("limitItem",limitItem);
+        window.location.href = url.href;
+    })
+    const limit = selectLimitItem.getAttribute("pagi")
+    if (limit) {
+        const optionselected = selectLimitItem.querySelector(`option[value='${limit}']`)
+        optionselected.selected=true;
+    }
+}

@@ -90,7 +90,7 @@ block main
                                                 a(class="btn btn-warning btn-sm" href=`${PrefixAdmin}/products/edit/${item.id}` ) Sửa
                                             if (role.permission.includes("products-delete"))
                                                 button(class="btn btn-danger btn-sm ml-1" data-id=item.id btn-delete-item ) Xóa
-        +pagination(pagination) 
+        +pagination(pagination)
         form(action="", method="POST" data-path=`${PrefixAdmin}/products/change-status` id="form-change-status" class="d-none")    
         form(action="", method="POST" data-path=`${PrefixAdmin}/products/delete` id="form-delete-item")    
         script(src="/admin/js/products.js") 

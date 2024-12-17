@@ -26,8 +26,12 @@ module.exports.index = async(req, res) => {
     };
     // Pagination
     const CountProduct = await Product.countDocuments(find);
+    let limitItem = 3;
+    if(req.query.limitItem) {
+        limitItem = parseInt(req.query.limitItem);
+    }
     const ObjectPagination =PaginationHelper({
-        limitItem: 3,
+        limitItem: limitItem,
         currentPage: 1
     },
         CountProduct,
