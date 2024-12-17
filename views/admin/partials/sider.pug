@@ -18,6 +18,9 @@
             if (role.permission.includes("accounts-view"))
                 li 
                     a(href=`${PrefixAdmin}/accounts`) Danh Sách Tài Khoản
+            li 
+                a(href=`${PrefixAdmin}/order`) Danh Sách Đơn Hàng
+                
             if (role.permission.includes("products-trash-view"))
                 li 
                     a(href=`${PrefixAdmin}/products/trash`) Thùng Rác 

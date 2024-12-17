@@ -1,0 +1,50 @@
+extends ../../layouts/default.pug
+include ../../mixins/fillter-status.pug
+include ../../mixins/search.pug
+include ../../mixins/pagination.pug
+include ../../mixins/form-change-multi.pug
+include ../../mixins/alert.pug
+include ../../mixins/sort.pug
+include ../../mixins/format-time.pug
+include ../../mixins/select-tree.pug
+block main
+        h2 Danh Sách Đơn Hàng
+        +alertsuccess(5000)
+        +alerterror(5000)
+        .card.mb-3
+            .card-header Danh Sách Đơn Hàng
+                .card-body
+                    .row 
+                        .col-4
+                        .col-5
+                        .col-3
+                    table(class="table table-hover" checkbox-multi)
+                            thead
+                                tr  
+                                    th STT
+                                    th Người Đặt
+                                    th Ngày Đặt
+                                    th Trạng Thái
+                                    th Tổng Tiền
+                                    th Hành Động
+                            tbody 
+                                each item,index in orders
+                                    tr      
+                                        //- td
+                                        //-     input(type="checkbox" name="id" value=item.id)
+                                        td #{index + 1}
+                                        td #{item.userInfor.fullName}
+                                        td 
+                                            p
+                                                +formatDateTime(item.createdAt)
+
+                                        td 
+                                            if(item.status == "inittial")
+                                                span(class="badge badge-success") Chờ Xác Nhận
+                                        td #{item.totalPriceAll}$
+                                        td  
+                                            a(class="btn btn-secondary btn-sm btn-detail" href=`${PrefixAdmin}/products/detail/${item.id}` ) Chi Tiết
+                                            if (role.permission.includes("products-edit"))
+                                                a(class="btn btn-warning btn-sm" href=`${PrefixAdmin}/products/edit/${item.id}` ) Sửa
+                                            if (role.permission.includes("products-delete"))
+                                                button(class="btn btn-danger btn-sm ml-1" data-id=item.id btn-delete-item ) Xóa

@@ -12,7 +12,7 @@ header.header
                         input(type="text" placeholder="Nhập Từ Khóa" name="keyword" class="form-control" value=keyword width="150px")
                         button(class="btn btn-primary" type="submit") Tìm
                      
-            .col-4 
+            .col-5 
                 .inner-menu
                     ul   
                         li
@@ -23,3 +23,5 @@ header.header
                             +sub-menu(categoryproduct,path)
                         li
                             a(href="/cart") Giỏ hàng (#{cart ? cart.totalQuantity : 0})
+                        li
+                            a(href="/order") Đơn Hàng
