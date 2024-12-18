@@ -25,3 +25,11 @@ header.header
                             a(href="/cart") Giỏ hàng (#{cart ? cart.totalQuantity : 0})
                         li
                             a(href="/order") Đơn Hàng
+                        if(user)
+                            li
+                                a(href="/user/logout") Đăng Xuất
+                        else
+                            li
+                                a(href="/user/login") Đăng Nhập    
+                            li
+                                a(href="/user/register") Đăng Ký    
