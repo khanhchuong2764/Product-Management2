@@ -48,12 +48,19 @@ app.locals.PrefixAdmin = SystemConfig.PrefixAdmin;
 
 app.locals.moment = moment;
 
+app.use(express.static(`${__dirname}/public`));
 
 //Router
 Router(app);
 RouterAdmin(app);
 
-app.use(express.static(`${__dirname}/public`));
+app.get("*", (req, res) => {
+  res.render("client/pages/errors/404",{
+    titlePage:"404 Not Found"
+  });
+});
+
+
 
 //Connect Database
 database.connect();
