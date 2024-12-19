@@ -3,6 +3,7 @@ const md5 = require("md5");
 const general = require("../../helpers/general");
 const ForgotPassword = require("../../model/forgot-password.model");
 const SendMailHelper = require("../../helpers/SendMail");
+const Cart = require("../../model/carts.model");
 // [GET] /user/register
 module.exports.register = (req,res) => {
     res.render("client/pages/users/register",{
@@ -34,23 +35,31 @@ module.exports.login = (req,res) => {
 
 // [POST] /user/login
 module.exports.loginPost = async (req,res) => {
-    const existEmail = await User.findOne({email: req.body.email, deleted: false});
-    if(!existEmail){
+    const user = await User.findOne({email: req.body.email, deleted: false});
+    if(!user){
         req.flash("error","Email Không rồn tại");
         res.redirect("back");
         return;
     }
-    if (existEmail.password != md5(req.body.password)){
+    if (user.password != md5(req.body.password)){
         req.flash("error","Sai Mật Khẩu");
         res.redirect("back");
         return;
     }
-    if (existEmail.status == "inactive"){
+    if (user.status == "inactive"){
         req.flash("error","Tài khoản đã bị khóa");
         res.redirect("back");
         return;
     }
-    res.cookie("tokenUser",existEmail.tokenUser);
+    const cart = await Cart.findOne({user_id : user.id});
+    if(cart){
+        res.cookie("cartId",cart.id);
+    }else {
+        await Cart.updateOne({_id : req.cookies.cartId},{
+            user_id : user.id
+        })
+    }
+    res.cookie("tokenUser",user.tokenUser);
     req.flash("success","Đăng Nhập Tài Khoản Thành Công");
     res.redirect("/");
 }
@@ -59,7 +68,8 @@ module.exports.loginPost = async (req,res) => {
 // [GET] /user/logout
 module.exports.logout = (req,res) => {
     res.clearCookie("tokenUser");
-    res.redirect("/");
+    res.clearCookie('cartId');
+    res.redirect("/");  
 }
 
 
