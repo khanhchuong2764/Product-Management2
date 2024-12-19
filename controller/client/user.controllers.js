@@ -2,6 +2,7 @@ const User = require("../../model/user.model");
 const md5 = require("md5");
 const general = require("../../helpers/general");
 const ForgotPassword = require("../../model/forgot-password.model");
+const SendMailHelper = require("../../helpers/SendMail");
 // [GET] /user/register
 module.exports.register = (req,res) => {
     res.render("client/pages/users/register",{
@@ -85,6 +86,11 @@ module.exports.forgotPasswordPost = async (req,res) => {
         otp : otp,
         expireAt : new Date(Date.now() + 180 * 1000)
     }
+    // Gửi mã otp qua gmail
+    const subject = "Mã xác thực OTP lấy lại mật khẩu";
+    const html = `Mã OTP để lấy lại mật khẩu là <b>${otp}</b>.Thời hạn sử dụng trong 3 phút`
+    SendMailHelper.sendMail(email,subject,html);
+    // End
     const Optexits = await ForgotPassword.findOne({email : email});
     if (Optexits) {
         req.flash("error","Bạn đã gửi mail xác nhận vui lòng không gửi trong 3 phút nữa");
