@@ -2,6 +2,7 @@ const Order = require("../../model/order.model");
 const Cart = require("../../model/carts.model");
 const Product = require("../../model/product.model");
 const ProductHelper = require("../../helpers/products");
+const User = require("../../model/user.model");
 // [POST] /checkout
 module.exports.index = async (req, res) => {
     const productsCart = JSON.parse(req.body.ids);
@@ -53,6 +54,10 @@ module.exports.order = async (req, res) => {
         userInfor :UserInfo,
         products : products
     };
+    if(req.cookies.tokenUser) {
+        const user = await User.findOne({tokenUser:req.cookies.tokenUser,deleted:false});
+        ObjectOrder.user_id = user.id;
+    }
     const productId = CartProduct.map(item => item.product_id);
     const order = new Order(ObjectOrder);
     await order.save();
