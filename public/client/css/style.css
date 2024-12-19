@@ -160,3 +160,17 @@
 .closedalert:hover {
     cursor: pointer;
 }
+
+
+
+.imguploads {
+    width: 150px;
+    height: auto;
+    border: 1px solid #ddd;
+    padding: 15px;
+    margin-top: 20px;
+    border-radius: 50%;
+} 
+.imguploads[src=""] {
+    display: none;
+}

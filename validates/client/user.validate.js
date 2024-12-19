@@ -77,3 +77,13 @@ module.exports.resetPasswordPost = (req, res, next) => {
     }
     next();
 }
+
+
+module.exports.editInfo = (req, res, next) => {
+    if(!req.body.fullName) {
+        req.flash("error","Vui lòng nhập họ tên");
+        res.redirect("back");
+        return;
+    }
+    next();
+}

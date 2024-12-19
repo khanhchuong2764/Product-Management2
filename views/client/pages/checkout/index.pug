@@ -40,13 +40,13 @@ block main
                 form(action="/checkout/order", method="post")
                   div(class="form-group")
                     label(for="fullName") Họ Tên 
-                    input(type="text" id="fullName" name="fullName" class="form-control" required)
+                    input(type="text" id="fullName" name="fullName" value=(user ? user.fullName : "" ) class="form-control" required)
                   div(class="form-group")
                       label(for="phone") Số điện thoại 
-                      input(type="number" id="phone" name="phone" class="form-control" required) 
+                      input(type="number" id="phone" name="phone" value=(user ? user.phone : "" )  class="form-control" required) 
                   div(class="form-group")
                     label(for="address") Địa Chỉ
-                    input(type="text" id="address" name="address" class="form-control" required)
+                    input(type="text" id="address" name="address" value=(user ? user.address : "" )  class="form-control" required)
                     input(type="text" id="address" name="productCarts" value=carts class="form-control d-none" required)
                   div(class="form-group" datacarrt=carts)
                     button(type="submit" class="btn btn-primary ") Đặt Hàng

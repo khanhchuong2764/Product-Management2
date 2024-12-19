@@ -157,3 +157,24 @@ module.exports.resetPasswordPost = async (req,res) => {
     req.flash("success","Thay đổi mật khẩu thành công");
     res.redirect("/");
 }
+
+
+// [GET] /user/info
+module.exports.infoUser = (req,res) => {
+    res.render("client/pages/users/info",{
+        titlePage : "Thông tin cá nhân",
+    })
+}
+
+
+// [Patch] /user/info
+module.exports.infoUserPatch = async (req,res) => {
+    if(req.body.password) {
+        req.body.password = md5(req.body.password);
+    }else {
+        delete req.body.password;
+    }
+    await User.updateOne({tokenUser : req.cookies.tokenUser},req.body);
+    req.flash("success","Cập nhật tài khoản thành công");
+    res.redirect("back");
+}
