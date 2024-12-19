@@ -1,0 +1,32 @@
+extends ../../layouts/default.pug
+include ../../mixins/alert.pug
+block main  
+        +alertsuccess(5000)
+        h2(class="mb-4") Cài đặt chung
+        form(
+            action=`${PrefixAdmin}/setting/general?_method=PATCH` 
+            method="POST",
+            enctype="multipart/form-data" 
+        ) 
+            div(class="form-group")
+                label(for="websiteName") Tên website
+                input(type="text" id="websiteName" name="websiteName" value=(settingGeneral ? settingGeneral.websiteName :"") class="form-control")
+            div(class="form-group" uploads-image)
+                label(for="logo") Logo
+                input(type="file" id="logo" name="logo" class="form-control-file" accept="image/*" uploads-image-input) 
+                img(src=value=(settingGeneral ? settingGeneral.logo :""), alt="" uploads-image-previews class="imguploads")
+                button(class="btn btn-secondary btn-sm ml-3 btn-delete-uploads d-none" type="button" button-delete-uploads ) Xóa 
+            div(class="form-group")
+                label(for="email") Email *
+                input(type="email" id="email" name="email" value=(settingGeneral ? settingGeneral.email :"") class="form-control" required)
+            div(class="form-group")
+                label(for="phone") Số Điện Thoại
+                input(type="text" id="phone" value=(settingGeneral ? settingGeneral.phone :"") name="phone" class="form-control")
+            div(class="form-group")
+                label(for="address") Địa Chỉ
+                input(type="text" id="address" value=(settingGeneral ? settingGeneral.address :"") name="address" class="form-control")
+            div(class="form-group")
+                label(for="CopyRight") Copyright
+                input(type="text" id="CopyRight" name="CopyRight" value=(settingGeneral ? settingGeneral.CopyRight :"") class="form-control")
+            div(class="form-group")
+                button(type="submit" class="btn btn-primary") Cập nhật

@@ -6,6 +6,7 @@ const AccountRouter = require("./account.route");
 const OrderRouter = require("./order.route");
 const AuthRouter = require("./auth.route");
 const MyaccountRouter = require("./my-account.route");
+const SettingGeneralRouter = require("./setting-general.route");
 const AuthenMiddelware = require("../../middleware/admin/auth.middelware");
 const SystemConfig = require("../../config/system");
 
@@ -26,5 +27,7 @@ module.exports = (app) => {
     app.use(Path_Admin + '/my-accounts',AuthenMiddelware.requireAuth, MyaccountRouter)
 
     app.use(Path_Admin + '/order',AuthenMiddelware.requireAuth, OrderRouter)
+
+    app.use(Path_Admin + '/setting',AuthenMiddelware.requireAuth, SettingGeneralRouter)
 
 }

@@ -20,6 +20,9 @@
                     a(href=`${PrefixAdmin}/accounts`) Danh Sách Tài Khoản
             li 
                 a(href=`${PrefixAdmin}/order`) Danh Sách Đơn Hàng
+
+            li 
+                a(href=`${PrefixAdmin}/setting/general`) Cài Đặt Chung
                 
             if (role.permission.includes("products-trash-view"))
                 li 
