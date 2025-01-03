@@ -54,9 +54,8 @@ module.exports.order = async (req, res) => {
         userInfor :UserInfo,
         products : products
     };
-    if(req.cookies.tokenUser) {
-        const user = await User.findOne({tokenUser:req.cookies.tokenUser,deleted:false});
-        ObjectOrder.user_id = user.id;
+    if(res.locals.user) {
+        ObjectOrder.user_id = res.locals.user.id;
     }
     const productId = CartProduct.map(item => item.product_id);
     const order = new Order(ObjectOrder);

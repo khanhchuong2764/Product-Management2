@@ -15,8 +15,10 @@ mixin pagination(pagination)
                     button(class="page-link" button-pagi=pagination.currentPage+1 ) <span aria-hidden="true">&raquo;</span>
             li(class=`page-item`)
                 button(class="page-link"  button-pagi=pagination.totalPage) <span aria-hidden="true">&raquo;</span>
-        select(class="form-select" id="limitItem" style="width: 50px" name="limitItem" pagi=pagination.limitItem)
+        select(class="form-select" id="limitItem" style="width: 50px" name="limitItem")
             option(value="1") 1
-            option(value="3") 3
             option(value="5") 5
-            option(value="7") 7
+            option(value="10") 10
+            option(value="20") 20
+            option(value="50") 50
+            option(value="100") 100

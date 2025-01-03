@@ -26,12 +26,8 @@ module.exports.index = async(req, res) => {
     };
     // Pagination
     const CountProduct = await Product.countDocuments(find);
-    let limitItem = 3;
-    if(req.query.limitItem) {
-        limitItem = parseInt(req.query.limitItem);
-    }
     const ObjectPagination =PaginationHelper({
-        limitItem: limitItem,
+        limitItem: 5,
         currentPage: 1
     },
         CountProduct,
@@ -322,7 +318,6 @@ module.exports.editPatch = async (req, res) => {
     req.body.discountPercentage= parseInt(req.body.discountPercentage);
     req.body.stock= parseInt(req.body.stock);
     req.body.posittion= parseInt(req.body.posittion);
-    console.log(req.body);
     try {
         await Product.updateOne({_id : id}, { ...req.body , $push:{updatedBy : UpdatedBy}});
         req.flash('success', 'Cập nhật sản phẩm thành công');
