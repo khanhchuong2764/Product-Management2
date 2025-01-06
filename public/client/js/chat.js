@@ -1,5 +1,12 @@
 import * as Popper from 'https://cdn.jsdelivr.net/npm/@popperjs/core@^2/dist/esm/index.js'
 
+// file-upload-with-preview
+const upload = new FileUploadWithPreview.FileUploadWithPreview('upload-images',{
+    multiple:true,
+    maxFileCount:6
+});
+// End file-upload-with-preview
+
 // Client_send_message
 const formChat = document.querySelector(".chat .inner-form");
 if(formChat) {
@@ -7,8 +14,13 @@ if(formChat) {
         e.preventDefault();
         const inputChat = formChat.elements.content;
         const content = inputChat.value;
-        if(content) {
-            socket.emit("CLIENT_SEND_MESSAGE",content);
+        const images =upload.cachedFileArray;
+        if(content || images.length > 0) {
+            socket.emit("CLIENT_SEND_MESSAGE",{
+                content:content,
+                images:images
+            });
+            upload.resetPreviewPanel();
             inputChat.value="";
             socket.emit("CLIENT_SEND_TYPING",false);
         }   
@@ -24,6 +36,18 @@ if(body){
     socket.on("SERVER_RETURN_MESSAGE" , (data) => {
         let div = document.createElement("div");
         let htmlFullName = "";
+        let htmlContent = ""; 
+        let htmlImage = "";
+        if(data.content) {
+            htmlContent = `<div class="inner-content">${data.content}</div>`;
+        }
+        if(data.images.length > 0){
+            htmlImage +=`<div class="inner-images">`;
+            for (const item of data.images) {
+                htmlImage += `<img src=${item}></img>`;
+            }
+            htmlImage +=`</div>`;
+        }
         if(data.user_id == MyId) {
             div.classList.add("inner-outgoing");
         }else {
@@ -32,7 +56,8 @@ if(body){
         }
         div.innerHTML= `
             ${htmlFullName}
-            <div class="inner-content">${data.content}</div>
+            ${htmlContent}
+            ${htmlImage}
         `;
         body.insertBefore(div,ListTyping);
         body.scrollTop = body.scrollHeight;
@@ -112,3 +137,5 @@ if(ListTyping) {
         }
     })
 }
+
+// Upload Image

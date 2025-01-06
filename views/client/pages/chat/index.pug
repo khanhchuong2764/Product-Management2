@@ -16,8 +16,13 @@ block main
                 .inner-incoming
                   if(chat.user_id !=user.id)
                     .inner-name #{chat.inforUser.fullName}
-                  .inner-content
-                    | #{chat.content}
+                  if(chat.content)
+                    .inner-content
+                      | #{chat.content}
+                  if(chat.images)
+                    .inner-images
+                      each item in chat.images
+                        img(src=item)
             div(class="inner-list-typing")
             //- div(class="box-typing")
             //-   div(class="inner-name") Le Van B 
@@ -25,18 +30,21 @@ block main
             //-     span
             //-     span
             //-     span
+          .inner-preview-images
+            div(class="custom-file-container" data-upload-id="upload-images")
           .inner-foot
             form(
               class="inner-form"
               action=""
-            )
+            ) 
               input(
                 type="text"
                 placeholder="Nhập nội dung..."
                 name="content"
-              )
+              )  
               span(class="button-icon btn btn-light mx-1") <i class="fa-regular fa-face-smile"></i>
+              label(for="file-upload-with-preview-upload-images" class="btn btn-light mx-1") <i class="fa-regular fa-image"></i>
               button
                 i.fa-solid.fa-paper-plane
-        div(class="tooltip" role="tooltip")
-          emoji-picker(class="light")
+      div(class="tooltip" role="tooltip")
+        emoji-picker(class="light")
