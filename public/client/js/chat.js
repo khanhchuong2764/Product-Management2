@@ -61,6 +61,7 @@ if(body){
         `;
         body.insertBefore(div,ListTyping);
         body.scrollTop = body.scrollHeight;
+        new Viewer(div);    
     })
 }
 
@@ -73,6 +74,11 @@ if(bodyChat) {
     bodyChat.scrollTop = bodyChat.scrollHeight;
 }
 // END Scroll Chat To Bottom
+
+
+// ViewerJS
+new Viewer(bodyChat);
+// End ViewerJs
 
 // Show Typing
 var timeOut;
