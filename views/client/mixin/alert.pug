@@ -5,7 +5,7 @@ mixin alertsuccess(time)
                 class="alert alert-success" 
                 show-alert 
                 data-time=time
-            ) #{messages.success}<i class="fa-solid fa-xmark closedalert" alert-close>X</i>
+            ) #{messages.success}<i class="fa-solid fa-xmark closedalert" alert-close></i>
 
 mixin alerterror(time)
     - if (messages.error)
@@ -14,4 +14,4 @@ mixin alerterror(time)
                 class="alert alert-danger" 
                 show-alert 
                 data-time=time
-            ) #{messages.error}<i class="fa-solid fa-xmark closedalert" alert-close>X</i>
+            ) #{messages.error}<i class="fa-solid fa-xmark closedalert" alert-close></i>

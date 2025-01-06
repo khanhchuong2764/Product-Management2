@@ -1,6 +1,9 @@
 const express = require('express');
 require('dotenv').config()
 
+const http = require('http');
+const { Server } = require("socket.io");
+
 const path = require('path');
 
 const bodyParser = require('body-parser');
@@ -23,7 +26,11 @@ const SystemConfig = require("./config/system");
 const database = require("./config/database");
 const app = express();
 const port = process.env.Port;
-
+// Socket
+const server = http.createServer(app);
+const io = new Server(server);
+global._io = io;
+// End Socket
 
 app.use(methodOverride('_method'))
 
@@ -50,6 +57,9 @@ app.locals.moment = moment;
 
 app.use(express.static(`${__dirname}/public`));
 
+//Connect Database
+database.connect();
+
 //Router
 Router(app);
 RouterAdmin(app);
@@ -62,9 +72,6 @@ app.get("*", (req, res) => {
 
 
 
-//Connect Database
-database.connect();
-
-app.listen(port, () => {
+server.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
 })
