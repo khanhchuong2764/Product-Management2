@@ -7,6 +7,14 @@ const Userchema = new mongoose.Schema(
         phone:String,
         address: String,
         password:String,
+        requestFriends: Array,
+        acceptFriends : Array,
+        friendsList: [
+            {
+                user_id : String,
+                rom_chat_id : String
+            }
+        ],
         tokenUser: {
             type: String,
             default: general.CreateStringRamdom(20)
