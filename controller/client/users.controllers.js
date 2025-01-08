@@ -4,11 +4,16 @@ module.exports.notFriend = async (req,res) => {
     const myId = res.locals.user.id;
     UserSocket(res);
     const requestFriendId = res.locals.user.requestFriends; 
+    const AcceptFriendId = res.locals.user.acceptFriends; 
+    const FriendList = res.locals.user.friendsList;
+    const friendListId = FriendList.map(item => item.user_id);
     const users = await User.find({
         // _id : {$nin : [myId, ...requestFriendId]},
         $and : [
             {_id : {$ne : myId}},
-            {_id : {$nin : requestFriendId}}
+            {_id : {$nin : requestFriendId}},
+            {_id : {$nin : AcceptFriendId}},
+            {_id : {$nin : friendListId}}
         ],
         deleted:false,
         status:"active"

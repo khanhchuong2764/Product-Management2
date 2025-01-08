@@ -81,5 +81,65 @@ module.exports = (res) => {
                 })
             }
         })
+        socket.on("CLIENT_REFUSE_FRIEND", async (userId) => {
+            // Xóa Id của tài khoản mình khỏi requestFriend của tài khoản muốn kết bạn
+            const exitsIdrequestFriend = await User.findOne({
+                _id : userId,
+                requestFriends: myId
+            })
+            if (exitsIdrequestFriend) {
+                await User.updateOne({
+                    _id : userId,
+                },{
+                    $pull: {requestFriends : myId}
+                })
+            }
+            // Xóa Id của tài khoản muốn từ chối kết bạn khỏi acceptFriend của mình
+            const exitsIdAcceptFriend = await User.findOne({
+                _id : myId,
+                acceptFriends: userId
+            })
+            if (exitsIdAcceptFriend) {
+                await User.updateOne({
+                    _id :myId,
+                },{
+                    $pull: {acceptFriends : userId}
+                })
+            }
+        })
+        socket.on("CLIENT_ACCEPT_FRIEND", async (userId) => {
+            // Xóa Id của tài khoản mình khỏi requestFriend của tài khoản muốn kết bạn
+            const exitsIdrequestFriend = await User.findOne({
+                _id : userId,
+                requestFriends: myId
+            })
+            if (exitsIdrequestFriend) {
+                await User.updateOne({
+                    _id : userId,
+                },{
+                    $pull: {requestFriends : myId},
+                    $push : {friendsList: {
+                        user_id : myId,
+                        rom_chat_id: ""
+                    }}
+                })
+            }
+            // Xóa Id của tài khoản muốn từ chối kết bạn khỏi acceptFriend của mình
+            const exitsIdAcceptFriend = await User.findOne({
+                _id : myId,
+                acceptFriends: userId
+            })
+            if (exitsIdAcceptFriend) {
+                await User.updateOne({
+                    _id :myId,
+                },{
+                    $pull: {acceptFriends : userId},
+                    $push : {friendsList: {
+                        user_id : userId,
+                        rom_chat_id: ""
+                    }}
+                })
+            }
+        })
     });
 }

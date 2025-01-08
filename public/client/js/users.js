@@ -23,5 +23,32 @@ if (listbtncancleFriend.length > 0) {
         })
     })
 }
-
 // End Chức Năng Hủy Gửi Yêu Cầu Kết Bạn
+
+
+// Chức Năng Từ Chối Kết Bạn
+const listbtnrefuseFriend = document.querySelectorAll("[btn-refuse-friend]");
+if (listbtnrefuseFriend.length > 0) {
+    listbtnrefuseFriend.forEach( button => {
+        button.addEventListener("click",() => {
+            const userId = button.getAttribute("btn-refuse-friend");
+            socket.emit("CLIENT_REFUSE_FRIEND",userId);
+            button.closest(".box-user").classList.add("refuse");
+        })
+    })
+}
+// End Chức Năng Từ Chối Kết Bạn
+
+
+// Chức Năng Chấp Nhận Kết Bạn
+const listbtnAcceptFriend = document.querySelectorAll("[btn-accept-friend]");
+if (listbtnAcceptFriend.length > 0) {
+    listbtnAcceptFriend.forEach( button => {
+        button.addEventListener("click",() => {
+            const userId = button.getAttribute("btn-accept-friend");
+            socket.emit("CLIENT_ACCEPT_FRIEND",userId);
+            button.closest(".box-user").classList.add("accepted");
+        })
+    })
+}
+// End Chức Năng Chấp Nhận Kết Bạn
