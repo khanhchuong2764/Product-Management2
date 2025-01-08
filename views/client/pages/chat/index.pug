@@ -12,24 +12,22 @@ block main
         .chat(my_id =user.id)
           .inner-body
             each chat in chats
-              div(class=(user.id == chat.user_id ? "inner-outgoing" : "inner-incoming"))
+              div(class=(user.id == chat.user_id ? "inner-outgoing" : "inner-incoming") chat-id=chat.id)
                 .inner-incoming
                   if(chat.user_id !=user.id)
                     .inner-name #{chat.inforUser.fullName}
+                  //- if(chat.user_id ==user.id)
+                  //-   span(class="btn btn-light mx-1" user_id=chat.user_id delete-chat-id=chat.id) <i class="fa-solid fa-trash"></i>
                   if(chat.content)
                     .inner-content
+                      //- if(chat.user_id ==user.id)
+                      //-   span(class="btn btn-light mx-1" user_id=chat.user_id delete-chat-id=chat.id) <i class="fa-solid fa-trash"></i>
                       | #{chat.content}
                   if(chat.images)
                     .inner-images
                       each item in chat.images
                         img(src=item)
             div(class="inner-list-typing")
-            //- div(class="box-typing")
-            //-   div(class="inner-name") Le Van B 
-            //-   div(class="inner-dots")
-            //-     span
-            //-     span
-            //-     span
           .inner-preview-images
             div(class="custom-file-container" data-upload-id="upload-images")
           .inner-foot

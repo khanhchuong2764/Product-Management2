@@ -19,6 +19,7 @@ module.exports.index = async(req,res ) => {
 
             // Phản hồi Client hiển thị message realtime
             _io.emit("SERVER_RETURN_MESSAGE",{
+                chatId : chat.id,
                 user_id : res.locals.user.id,
                 fullName: res.locals.user.fullName,
                 content:data.content,
@@ -31,6 +32,14 @@ module.exports.index = async(req,res ) => {
                 fullName:res.locals.user.fullName,
                 type:type
             })
+        });
+        socket.on('CLIENT_SEND_DELETE_MESSAGE', async (data) => {
+            if (data.user_id == res.locals.user.id ) {
+                await Chat.deleteOne({_id : data.chatId});
+                _io.emit("SERVER_RETURN_MESSAGE_DELETE",data.chatId);
+            }else {
+                return;
+            }
         });
     });
     // Lấy Thông Tin Đoạn Chat In Ra Giao Diện
