@@ -27,33 +27,20 @@ module.exports = (res) => {
                     $push: {acceptFriends : myId}
                 })
             }
-            socket.on("CLIENT_CANCLE_FRIEND", async (userId) => {
-            // Xóa Id của tài khoản muốn kết bạn trong requestFriend
-            const exitsIdrequestFriend = await User.findOne({
-                _id : myId,
-                requestFriends: userId
+            // Hien thi so luong loi moi ket ban cua tai khoan dc yeu cau ket ban
+            const userB = await User.findOne({_id : userId});
+            const LengthAcceptFriend  = userB.acceptFriends.length;
+            socket.broadcast.emit("SERVER_RETURN_LENGTH_ACCEPT_FRIEND",{
+                userId : userId,
+                LengthAcceptFriend:LengthAcceptFriend
             })
-            if (exitsIdrequestFriend) {
-                await User.updateOne({
-                    _id : myId,
-                },{
-                    $pull: {requestFriends : userId}
-                })
-            }
-             // Xóa Id của tài khoản mình khỏi AcceptFriend của tài khoản muốn kết bạn
-            const exitsIdAcceptFriend = await User.findOne({
-                _id : userId,
-                acceptFriends: myId
+
+            socket.broadcast.emit("SERVER_RETURN_USER_REQUEST_FRIEND",{ 
+                userId : userId,
+                IdUserRequest : myId,
+                fullNameRequest: res.locals.user.fullName,
+                AvatarRequest :res.locals.user.avatar
             })
-            if (exitsIdAcceptFriend) {
-                await User.updateOne({
-                    _id :userId,
-                },{
-                    $pull: {acceptFriends : myId}
-                })
-            }
-        })
-        
         })
         socket.on("CLIENT_CANCLE_FRIEND", async (userId) => {
             // Xóa Id của tài khoản muốn kết bạn trong requestFriend
@@ -80,6 +67,17 @@ module.exports = (res) => {
                     $pull: {acceptFriends : myId}
                 })
             }
+            const userB = await User.findOne({_id : userId});
+            const LengthAcceptFriend  = userB.acceptFriends.length;
+            socket.broadcast.emit("SERVER_RETURN_LENGTH_ACCEPT_FRIEND",{
+                userId : userId,
+                LengthAcceptFriend:LengthAcceptFriend
+            })
+            socket.broadcast.emit("SERVER_RETURN_USER_ID_CANCEL_FRIEND",{ 
+                userId : userId,
+                IdUserCancel: myId,
+            })
+            
         })
         socket.on("CLIENT_REFUSE_FRIEND", async (userId) => {
             // Xóa Id của tài khoản mình khỏi requestFriend của tài khoản muốn kết bạn
@@ -106,6 +104,16 @@ module.exports = (res) => {
                     $pull: {acceptFriends : userId}
                 })
             }
+            const userB = await User.findOne({_id : myId});
+            const LengthAcceptFriend = userB.acceptFriends.length;
+            socket.emit("SERVER_RETURN_LENGTH_ACCEPT_FRIEND",{
+                userId : userB.id,
+                LengthAcceptFriend:LengthAcceptFriend
+            })
+            socket.broadcast.emit("SERVE_RETURN_DELETE_ACCEPT_FRIEND",{
+                userId : myId,
+                IdRequestFriend : userId
+            })
         })
         socket.on("CLIENT_ACCEPT_FRIEND", async (userId) => {
             // Xóa Id của tài khoản mình khỏi requestFriend của tài khoản muốn kết bạn
@@ -140,6 +148,16 @@ module.exports = (res) => {
                     }}
                 })
             }
+            const userB = await User.findOne({_id : myId});
+            const LengthAcceptFriend = userB.acceptFriends.length;
+            socket.emit("SERVER_RETURN_LENGTH_ACCEPT_FRIEND",{
+                userId : userB.id,
+                LengthAcceptFriend:LengthAcceptFriend
+            })
+            socket.broadcast.emit("SERVE_RETURN_DELETE_ACCEPT_FRIEND",{
+                userId : myId,
+                IdRequestFriend : userId
+            })
         })
     });
 }
