@@ -1,4 +1,5 @@
 const User = require("../../model/user.model");
+const RoomChat = require("../../model/room-chat.model");
 module.exports = (res) => {
     const myId = res.locals.user.id;
     _io.once('connection', (socket) => {
@@ -121,30 +122,49 @@ module.exports = (res) => {
                 _id : userId,
                 requestFriends: myId
             })
-            if (exitsIdrequestFriend) {
+             // Xóa Id của tài khoản muốn từ chối kết bạn khỏi acceptFriend của mình
+            const exitsIdAcceptFriend = await User.findOne({
+                _id : myId,
+                acceptFriends: userId
+            })
+            let roomChat;
+            if(exitsIdAcceptFriend && exitsIdrequestFriend) {
+                // Tạo Phòng Chat Chung Cho 2 Người
+                const dataRoom = {
+                    typeRoom: "friend",
+                    users: [
+                        {
+                            user_id: myId,
+                            role: "supperAdmin"
+                        },
+                        {
+                            user_id: userId,
+                            role: "supperAdmin"
+                        }
+                    ],
+                }
+                roomChat = new RoomChat(dataRoom);
+                await roomChat.save();
+                // Thêm {userId, roomChatId} của người chấp nhận kb vào friendsList của người gửi yêu cầu kb
+                // Xóa id của người chấp nhận trong requestFriends của người gửi
                 await User.updateOne({
                     _id : userId,
                 },{
                     $pull: {requestFriends : myId},
                     $push : {friendsList: {
                         user_id : myId,
-                        rom_chat_id: ""
+                        room_chat_id: roomChat.id
                     }}
                 })
-            }
-            // Xóa Id của tài khoản muốn từ chối kết bạn khỏi acceptFriend của mình
-            const exitsIdAcceptFriend = await User.findOne({
-                _id : myId,
-                acceptFriends: userId
-            })
-            if (exitsIdAcceptFriend) {
+                // Thêm {userId, roomChatId} của người gửi kb vào friendsList của người chấp nhận
+                // Xóa id của người gửi trong acceptFriend của người nhận
                 await User.updateOne({
                     _id :myId,
                 },{
                     $pull: {acceptFriends : userId},
                     $push : {friendsList: {
                         user_id : userId,
-                        rom_chat_id: ""
+                        room_chat_id: roomChat.id
                     }}
                 })
             }

@@ -59,12 +59,32 @@ module.exports.accept = async (req,res) => {
 module.exports.friends = async (req,res) => {
     UserSocket(res);
     const FriendList = res.locals.user.friendsList;
-    const FriendListId = FriendList.map(item => item.user_id);
-    const users = await User.find({
-        _id : {$in :FriendListId },
-        deleted :false,
-        status : "active"
-    }).select("fullName id avatar statusOnline");
+    const users=[];
+    for (const user of FriendList) {
+        const inforUser = await User.findOne({
+            _id : user.user_id ,
+            deleted:false,
+            status:"active"
+        })
+        users.push({
+            id: inforUser.id,
+            fullName: inforUser.fullName,
+            avatar: inforUser.avatar,
+            statusOnline: inforUser.statusOnline,
+            roomChatId: user.room_chat_id
+        })
+    }
+    console.log(users);
+    // const FriendListId = FriendList.map(item => item.user_id);
+    // const users = await User.find({
+    //     _id : {$in :FriendListId },
+    //     deleted :false,
+    //     status : "active"
+    // // }).select("fullName id avatar statusOnline");
+    // for (const user of users) {
+    //     const infoUser = FriendList.find(friendUser => friendUser.user_id == user.id);
+    //     user.infoUser=infoUser;
+    // }
     res.render("client/pages/user/friends",{
         titlePage:"Danh Sách Bạn Bè",
         users:users

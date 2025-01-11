@@ -13,7 +13,7 @@ const Userchema = new mongoose.Schema(
         friendsList: [
             {
                 user_id : String,
-                rom_chat_id : String
+                room_chat_id : String
             }
         ],
         tokenUser: {
