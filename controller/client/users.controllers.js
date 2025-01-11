@@ -1,5 +1,6 @@
 const User = require("../../model/user.model");
 const UserSocket = require("../../socket/client/users.socket");
+// [GET] /users/not-friend
 module.exports.notFriend = async (req,res) => {
     const myId = res.locals.user.id;
     UserSocket(res);
@@ -24,7 +25,7 @@ module.exports.notFriend = async (req,res) => {
     })
 }
 
-
+// [GET] /users/request
 module.exports.request = async (req,res) => {
     UserSocket(res);
     const IdRequestFriend = res.locals.user.requestFriends;
@@ -39,7 +40,7 @@ module.exports.request = async (req,res) => {
     })
 }
 
-
+// [GET] /users/accept
 module.exports.accept = async (req,res) => {
     UserSocket(res);
     const IdAcceptFriend = res.locals.user.acceptFriends;
@@ -50,6 +51,22 @@ module.exports.accept = async (req,res) => {
     }).select("fullName id avatar");
     res.render("client/pages/user/accept",{
         titlePage:"Lời Mời Kết Bạn",
+        users:users
+    })
+}
+
+// [GET] /users/friends
+module.exports.friends = async (req,res) => {
+    UserSocket(res);
+    const FriendList = res.locals.user.friendsList;
+    const FriendListId = FriendList.map(item => item.user_id);
+    const users = await User.find({
+        _id : {$in :FriendListId },
+        deleted :false,
+        status : "active"
+    }).select("fullName id avatar statusOnline");
+    res.render("client/pages/user/friends",{
+        titlePage:"Danh Sách Bạn Bè",
         users:users
     })
 }

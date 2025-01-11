@@ -159,5 +159,37 @@ module.exports = (res) => {
                 IdRequestFriend : userId
             })
         })
+        socket.on("CLIENT_DELETE_FRIEND", async (userId) => {
+            // Xóa Id của tài khoản mình khỏi requestFriend của tài khoản muốn kết bạn
+            const exitsUserIdListFriend = await User.findOne({
+                _id : myId,
+                "friendsList.user_id": userId
+            })
+            const exitsMyIdinListFriend = await User.findOne({
+                _id : userId,
+                "friendsList.user_id": myId
+            })
+            if(exitsMyIdinListFriend && exitsUserIdListFriend) {
+                await User.updateOne({
+                    _id : userId,
+                },{
+                    $pull : {friendsList: {
+                        user_id : myId,
+                    }}
+                })
+                await User.updateOne({
+                    _id :myId,
+                },{
+                    $pull : {friendsList: {
+                        user_id : userId,
+                    }}
+                })
+
+            }
+            socket.broadcast.emit("SERVER_RETURN_USER_ID_CANCEL_FRIEND",{ 
+                userId : userId,
+                IdUserCancel: myId,
+            })
+        })
     });
 }

@@ -129,26 +129,18 @@ socket.on("SERVER_RETURN_USER_ID_CANCEL_FRIEND",(data) => {
             }
         }
     }
-})
-// SERVER_RETURN_USER_ID_CANCEL_FRIEND
-
-
-
-// SERVER_RETURN_USER_ID_CANCEL_FRIEND
-socket.on("SERVER_RETURN_USER_ID_CANCEL_FRIEND",(data) => {
-    const ListAcceptFriend = document.querySelector("[page-accept-friend]");
-    if(ListAcceptFriend) {
-        const MyId = ListAcceptFriend.getAttribute("page-accept-friend");
-        if(MyId == data.userId){
-            const BoxUserCancleFriend = document.querySelector(`[user_id='${data.IdUserCancel}']`);
-            if (BoxUserCancleFriend) {
-                ListAcceptFriend.removeChild(BoxUserCancleFriend);
+    const ListFriend = document.querySelector("[list-friends]");
+    if(ListFriend) {
+        const MyId = ListFriend.getAttribute("list-friends");
+        if(MyId == data.userId) {
+            const BoxUser = document.querySelector(`[user_id='${data.IdUserCancel}']`);
+            if (BoxUser) {
+                ListFriend.removeChild(BoxUser);
             }
         }
     }
 })
 // SERVER_RETURN_USER_ID_CANCEL_FRIEND
-
 
 // SERVE_RETURN_DELETE_ACCEPT_FRIEND
 socket.on("SERVE_RETURN_DELETE_ACCEPT_FRIEND",(data) => {
@@ -162,5 +154,47 @@ socket.on("SERVE_RETURN_DELETE_ACCEPT_FRIEND",(data) => {
             }
         }
     }
+    const ListUserNotFriend = document.querySelector("[listUser-not-friend]");
+    if(ListUserNotFriend) {
+        const MyId = ListUserNotFriend.getAttribute("listUser-not-friend");
+        if(MyId == data.IdRequestFriend) {
+            const BoxUser = document.querySelector(`[user_id='${data.userId}']`);
+            if (BoxUser) {
+                ListUserNotFriend.removeChild(BoxUser); 
+            }
+        }
+    }
+    
 })
 // SERVE_RETURN_DELETE_ACCEPT_FRIEND
+
+
+// SERVER_RETURN_USER_STATUS_ONLINE
+socket.on("SERVER_RETURN_USER_STATUS_ONLINE",(data) => {
+    const ListFriend = document.querySelector("[list-friends]");
+    if (ListFriend) {
+        const BoxUser = ListFriend.querySelector(`[user_id='${data.userId}']`);
+        if(BoxUser) {
+            const status=BoxUser.querySelector("[status]");
+            status.setAttribute("status",data.statusOnline);
+        }
+    }
+})
+// END SERVER_RETURN_USER_STATUS_ONLINE
+
+// Hủy Kết Bạn
+const ListBtnDeleteFriend = document.querySelectorAll("[button-delete-friend]");
+if(ListBtnDeleteFriend) {
+    ListBtnDeleteFriend.forEach(button => {
+        button.addEventListener("click",() => {
+            const isconfirm = confirm("Bạn Chắn Chắn Muốn Xóa Kết Bạn");
+            if(!isconfirm) {
+                return;
+            }
+            button.closest(".box-user").classList.add("delete");
+            const userId = button.getAttribute("button-delete-friend");
+            socket.emit("CLIENT_DELETE_FRIEND",userId);
+        })
+    })
+}
+// End Hủy Kết Bạn

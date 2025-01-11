@@ -1,0 +1,41 @@
+extends ../../layouts/default.pug
+include ../../mixin/box-head.pug
+
+block main
+    .container.my-3
+
+        include ../../partials/list-btn-user.pug 
+
+        .row
+        .col-12
+            +box-head(pageTitle)
+
+        .row(list-friends=user.id)
+            each item in users
+                .col-3(user_id=item.id)
+                    div(class="box-user")
+                        div(class="inner-avatar")
+                            img(
+                                src=(item.avatar ? item.avatar : "/client/images/avatar.jpg")
+                                alt=""
+                            )
+                        div(class="inner-info")
+                            div(class="inner-name") #{item.fullName}
+                            div(class="inner-buttons")
+                                a(class="btn btn-sm btn-primary mr-1" btn-chat) Nhắn Tin
+                                button(
+                                    class="btn btn-sm btn-secondary mr-1"
+                                    button-delete-friend=item.id
+                                ) Hủy
+                                button(
+                                    class="btn btn-sm btn-secondary mr-1"
+                                    btn-delete-friend
+                                    disabled
+                                ) Đã Hủy
+                            div(
+                                class="inner-status"
+                                status=item.statusOnline
+                            ) <i class="fa-solid fa-circle"></i>
+
+block script 
+    script(src="/client/js/users.js") 

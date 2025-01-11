@@ -9,6 +9,7 @@ const Userchema = new mongoose.Schema(
         password:String,
         requestFriends: Array,
         acceptFriends : Array,
+        statusOnline: String,
         friendsList: [
             {
                 user_id : String,
