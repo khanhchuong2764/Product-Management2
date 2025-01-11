@@ -74,7 +74,6 @@ module.exports.friends = async (req,res) => {
             roomChatId: user.room_chat_id
         })
     }
-    console.log(users);
     // const FriendListId = FriendList.map(item => item.user_id);
     // const users = await User.find({
     //     _id : {$in :FriendListId },
