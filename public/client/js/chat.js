@@ -14,15 +14,15 @@ if(formChat) {
         e.preventDefault();
         const inputChat = formChat.elements.content;
         const content = inputChat.value;
-        const images =upload.cachedFileArray;
-        if(content || images.length > 0) {
+        const images =upload.cachedFileArray || [];
+        if(content !="" || images.length > 0) {
             socket.emit("CLIENT_SEND_MESSAGE",{
                 content:content,
                 images:images
             });
             upload.resetPreviewPanel();
-            inputChat.value="";
             socket.emit("CLIENT_SEND_TYPING",false);
+            inputChat.value="";
         }   
     })
 }

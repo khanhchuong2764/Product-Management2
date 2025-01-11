@@ -74,16 +74,6 @@ module.exports.friends = async (req,res) => {
             roomChatId: user.room_chat_id
         })
     }
-    // const FriendListId = FriendList.map(item => item.user_id);
-    // const users = await User.find({
-    //     _id : {$in :FriendListId },
-    //     deleted :false,
-    //     status : "active"
-    // // }).select("fullName id avatar statusOnline");
-    // for (const user of users) {
-    //     const infoUser = FriendList.find(friendUser => friendUser.user_id == user.id);
-    //     user.infoUser=infoUser;
-    // }
     res.render("client/pages/user/friends",{
         titlePage:"Danh Sách Bạn Bè",
         users:users
