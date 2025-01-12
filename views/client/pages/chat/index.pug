@@ -5,8 +5,12 @@ block main
   .container.my-3
     include ../../partials/list-btn-user.pug
     .row
-      .col-12
-        +box-head("Chat")
+      .col-6
+        +box-head(OjectChat.title)
+      .col-3
+          a(href=`/rooms-chat/user/${OjectChat.rom_chat_id}` class="btn btn-outline-primary") Thành Viên Nhóm
+      .col-3
+          a(href=`/rooms-chat/adduser/${OjectChat.rom_chat_id}` class="btn btn-outline-primary") +Thêm Thành Viên
 
     .row
       .col-12

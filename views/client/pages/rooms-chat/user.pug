@@ -1,0 +1,38 @@
+extends ../../layouts/default.pug
+include ../../mixin/box-head.pug
+block main
+  .container.my-3
+    .row
+      .col-12
+        +box-head(titlePage)
+    .row
+      .col-5
+        form(
+          action=`/rooms-chat/adduser?_method=PATCH`
+          method="POST"
+        )
+          div(class="form-group")
+                each user in users
+                    div(class="form-check")
+                        //- input(
+                        //-     class="form-check-input"
+                        //-     type="checkbox"
+                        //-     value=friend.id    
+                        //-     id=`user-${friend.id}`
+                        //-     name="usersId"
+                        //- )
+                        label(
+                            class="form-check-label"
+                            for="da"
+                        ) #{user.infor.fullName} :
+                        if (user.role == "supperAdmin")
+                            span(class="span-user") Trưởng Phòng
+                        if (user.role == "admin")
+                            span(class="span-user") Phó Phòng
+                        if (user.role == "user")
+                            span(class="span-user") Thành Viên
+        //-   div(class="form-group")
+        //-     button(
+        //-       type="submit"
+        //-       class="btn btn-primary"
+        //-     ) Thêm
