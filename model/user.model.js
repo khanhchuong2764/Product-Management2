@@ -16,10 +16,7 @@ const Userchema = new mongoose.Schema(
                 room_chat_id : String
             }
         ],
-        tokenUser: {
-            type: String,
-            default: general.CreateStringRamdom(20)
-        },
+        tokenUser: String,
         status:{
             type:String,
             default: "active"

@@ -19,6 +19,7 @@ module.exports.registerPost = async (req,res) => {
         res.redirect("back");
         return;
     }
+    req.body.tokenUser = general.CreateStringRamdom(20);
     req.body.password = md5(req.body.password);
     const user = new User(req.body);
     await user.save();
